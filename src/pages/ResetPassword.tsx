@@ -122,7 +122,7 @@ const ResetPassword = () => {
             <CardContent>
               {isSuccess ? (
                 <div className="text-center py-6">
-                  <CheckCircle2 className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                  <CheckCircle2 className="h-12 w-12 text-primary mx-auto mb-4" />
                   <p className="text-muted-foreground">
                     Redirecting you to the homepage...
                   </p>
