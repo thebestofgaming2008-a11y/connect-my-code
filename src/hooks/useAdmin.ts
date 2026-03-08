@@ -437,6 +437,7 @@ export interface AdminOrder {
   customer_notes: string | null;
   admin_notes: string | null;
   payment_method: string | null;
+  payment_status: string | null;
   created_at: string;
   updated_at: string | null;
   paid_at: string | null;
