@@ -195,7 +195,41 @@ const Auth = () => {
                 </TabsList>
 
                 <TabsContent value="login">
-                  <form onSubmit={handleLogin} className="space-y-4 mt-4">
+                  {showForgotPassword ? (
+                    <form onSubmit={handleForgotPassword} className="space-y-4 mt-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="forgot-email">Email</Label>
+                        <Input
+                          id="forgot-email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          autoComplete="email"
+                        />
+                        {forgotEmailError && <p className="text-sm text-destructive">{forgotEmailError}</p>}
+                      </div>
+                      <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            Sending...
+                          </>
+                        ) : (
+                          'Send Reset Link'
+                        )}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="w-full"
+                        onClick={() => setShowForgotPassword(false)}
+                      >
+                        Back to Sign In
+                      </Button>
+                    </form>
+                  ) : (
+                    <form onSubmit={handleLogin} className="space-y-4 mt-4">
                     <div className="space-y-2">
                       <Label htmlFor="login-email">Email</Label>
                       <Input
