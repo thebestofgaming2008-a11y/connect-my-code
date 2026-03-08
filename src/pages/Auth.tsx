@@ -254,6 +254,16 @@ const Auth = () => {
                       />
                       {loginErrors.password && <p className="text-sm text-destructive">{loginErrors.password}</p>}
                     </div>
+                    <div className="flex justify-end">
+                      <Button
+                        type="button"
+                        variant="link"
+                        className="text-sm p-0 h-auto"
+                        onClick={() => setShowForgotPassword(true)}
+                      >
+                        Forgot password?
+                      </Button>
+                    </div>
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading ? (
                         <>
