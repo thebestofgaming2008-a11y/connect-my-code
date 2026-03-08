@@ -1,0 +1,3 @@
+-- DEPRECATED: This file is outdated. The correct reviews are in site-sections.sql
+-- and were applied via the SQL commands given in the final deploy instructions.
+-- Do NOT run this file.
