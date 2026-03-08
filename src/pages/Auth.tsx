@@ -82,6 +82,45 @@ const Auth = () => {
     setIsLoading(false);
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForgotEmailError('');
+
+    const emailSchema = z.string().trim().email('Please enter a valid email');
+    const result = emailSchema.safeParse(forgotEmail);
+    
+    if (!result.success) {
+      setForgotEmailError(result.error.errors[0].message);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await signIn(result.data, ''); // Use signIn to access resetPasswordForEmail
+    
+    // Actually call resetPasswordForEmail
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(result.data, {
+      redirectTo: `${window.location.origin}/reset-password`
+    });
+
+    if (resetError) {
+      toast({
+        title: "Error",
+        description: resetError.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Check Your Email",
+        description: "We've sent you a password reset link. Please check your inbox."
+      });
+      setShowForgotPassword(false);
+      setForgotEmail('');
+    }
+
+    setIsLoading(false);
+  };
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setSignupErrors({});
