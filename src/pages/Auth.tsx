@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { z } from 'zod';
@@ -37,6 +38,9 @@ const Auth = () => {
   const [signupData, setSignupData] = useState({ email: '', password: '', fullName: '' });
   const [loginErrors, setLoginErrors] = useState<{ email?: string; password?: string }>({});
   const [signupErrors, setSignupErrors] = useState<{ fullName?: string; email?: string; password?: string }>({});
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotEmailError, setForgotEmailError] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -74,6 +78,42 @@ const Auth = () => {
         description: "You have successfully logged in."
       });
       navigate(redirectTo);
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForgotEmailError('');
+
+    const emailSchema = z.string().trim().email('Please enter a valid email');
+    const result = emailSchema.safeParse(forgotEmail);
+    
+    if (!result.success) {
+      setForgotEmailError(result.error.errors[0].message);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(result.data, {
+      redirectTo: `${window.location.origin}/reset-password`
+    });
+
+    if (resetError) {
+      toast({
+        title: "Error",
+        description: resetError.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Check Your Email",
+        description: "We've sent you a password reset link. Please check your inbox."
+      });
+      setShowForgotPassword(false);
+      setForgotEmail('');
     }
 
     setIsLoading(false);
@@ -153,7 +193,41 @@ const Auth = () => {
                 </TabsList>
 
                 <TabsContent value="login">
-                  <form onSubmit={handleLogin} className="space-y-4 mt-4">
+                  {showForgotPassword ? (
+                    <form onSubmit={handleForgotPassword} className="space-y-4 mt-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="forgot-email">Email</Label>
+                        <Input
+                          id="forgot-email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          autoComplete="email"
+                        />
+                        {forgotEmailError && <p className="text-sm text-destructive">{forgotEmailError}</p>}
+                      </div>
+                      <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            Sending...
+                          </>
+                        ) : (
+                          'Send Reset Link'
+                        )}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="w-full"
+                        onClick={() => setShowForgotPassword(false)}
+                      >
+                        Back to Sign In
+                      </Button>
+                    </form>
+                  ) : (
+                    <form onSubmit={handleLogin} className="space-y-4 mt-4">
                     <div className="space-y-2">
                       <Label htmlFor="login-email">Email</Label>
                       <Input
@@ -178,6 +252,16 @@ const Auth = () => {
                       />
                       {loginErrors.password && <p className="text-sm text-destructive">{loginErrors.password}</p>}
                     </div>
+                    <div className="flex justify-end">
+                      <Button
+                        type="button"
+                        variant="link"
+                        className="text-sm p-0 h-auto"
+                        onClick={() => setShowForgotPassword(true)}
+                      >
+                        Forgot password?
+                      </Button>
+                    </div>
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading ? (
                         <>
@@ -189,6 +273,7 @@ const Auth = () => {
                       )}
                     </Button>
                   </form>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="signup">
