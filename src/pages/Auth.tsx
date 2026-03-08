@@ -275,6 +275,7 @@ const Auth = () => {
                       )}
                     </Button>
                   </form>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="signup">
