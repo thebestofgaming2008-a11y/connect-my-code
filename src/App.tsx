@@ -34,6 +34,7 @@ const TrackOrder = lazy(() => import("./pages/TrackOrder"));
 const Account = lazy(() => import("./pages/Account"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Reviews = lazy(() => import("./pages/Reviews"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const PageLoader = () => (
