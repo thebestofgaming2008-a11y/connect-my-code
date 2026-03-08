@@ -97,9 +97,6 @@ const Auth = () => {
 
     setIsLoading(true);
 
-    const { error } = await signIn(result.data, ''); // Use signIn to access resetPasswordForEmail
-    
-    // Actually call resetPasswordForEmail
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(result.data, {
       redirectTo: `${window.location.origin}/reset-password`
     });
