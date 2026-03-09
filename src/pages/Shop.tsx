@@ -59,7 +59,6 @@ function getCategorySEO(category: string, search: string, categories: { name: st
 }
 
 const Shop = () => {
-  useDocumentTitle('Shop');
   const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || "all");
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || "");
