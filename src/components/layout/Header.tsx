@@ -229,6 +229,9 @@ const Header = () => {
             <Link to="/shop?category=clothing" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Clothing
             </Link>
+            <Link to="/track-order" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Track Order
+            </Link>
             <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Contact
             </Link>
