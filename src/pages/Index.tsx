@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Plus, Truck, Shield, Award, Clock, Quote, Loader2, BookOpen, Heart, Headphones, Gift, CheckCircle, Lock, Zap, Globe, Package, ThumbsUp, Users, MapPin, Phone, Mail, Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon, HandHeart, BookMarked, MessageCircle, Crown, Ribbon, ShoppingBag, Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint, Megaphone, CalendarCheck, Palette } from "lucide-react";
+import { Star, Plus, Truck, Shield, Award, Clock, Quote, Loader2, BookOpen, Heart, Headphones, Gift, CheckCircle, Lock, Zap, Globe, Package, ThumbsUp, Users, MapPin, Phone, Mail, Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon, HandHeart, BookMarked, MessageCircle, Crown, Ribbon, ShoppingBag, Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint, Megaphone, CalendarCheck, Palette, ArrowRight } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
@@ -18,6 +18,8 @@ import React from "react";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { useWishlistItems, useToggleWishlistItem } from "@/hooks/useWishlist";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import MobileStickyBar from "@/components/MobileStickyBar";
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Truck, Shield, Award, Clock, Star, Quote, BookOpen, Heart, Headphones, Gift,
@@ -25,7 +27,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon,
   HandHeart, BookMarked, MessageCircle, Plus, Loader2, Crown, Ribbon, ShoppingBag,
   Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint,
-  Megaphone, CalendarCheck, Palette,
+  Megaphone, CalendarCheck, Palette, ArrowRight,
 };
 
 export { ICON_MAP };
