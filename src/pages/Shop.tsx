@@ -22,8 +22,43 @@ import { useWishlistItems, useToggleWishlistItem } from "@/hooks/useWishlist";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// Build category-aware SEO meta content
+function getCategorySEO(category: string, search: string, categories: { name: string; slug: string }[]) {
+  if (search) {
+    return {
+      title: `Search: "${search}" – Islamic Books & Essentials`,
+      description: `Search results for "${search}" at Abu Hurayrah Essentials. Authentic Islamic books, clothing, and essentials.`,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Shop', url: '/shop' },
+        { name: `"${search}"`, url: `/shop?search=${encodeURIComponent(search)}` },
+      ],
+    };
+  }
+  if (category && category !== 'all') {
+    const cat = categories.find(c => c.slug === category);
+    const catName = cat?.name || category.charAt(0).toUpperCase() + category.slice(1);
+    return {
+      title: `${catName} – Islamic Books & Essentials`,
+      description: `Shop authentic ${catName} at Abu Hurayrah Essentials. Carefully curated selection from verified publishers. Free shipping in India.`,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Shop', url: '/shop' },
+        { name: catName, url: `/shop?category=${category}` },
+      ],
+    };
+  }
+  return {
+    title: 'Shop Islamic Books, Clothing & Essentials',
+    description: 'Browse our full collection of authentic Islamic books, clothing, and essentials. Filter by category, price, and more. Free shipping in India.',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Shop', url: '/shop' },
+    ],
+  };
+}
+
 const Shop = () => {
-  useDocumentTitle('Shop');
   const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || "all");
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || "");
@@ -52,6 +87,9 @@ const Shop = () => {
   const { data: products = [], isLoading: productsLoading } = useProducts();
   const { data: categories = [] } = useCategories(true);
   const { formatPrice, currency, exchangeRates, currencySymbol } = useCurrencyContext();
+
+  // Dynamic SEO based on current filters
+  const seoMeta = useMemo(() => getCategorySEO(selectedCategory, searchQuery, categories), [selectedCategory, searchQuery, categories]);
 
   const priceManuallySet = useRef(false);
 
@@ -336,9 +374,10 @@ const Shop = () => {
 
       <main className={`flex-1 container px-4 ${isMobile ? 'py-3' : 'py-8 sm:py-12'}`}>
         <SEO
-          title="Shop"
-          description="Browse authentic Islamic books, clothing, and essentials. Filter by category, price, and more. International shipping available."
-          url="/shop"
+          title={seoMeta.title}
+          description={seoMeta.description}
+          url={selectedCategory !== 'all' ? `/shop?category=${selectedCategory}` : searchQuery ? `/shop?search=${encodeURIComponent(searchQuery)}` : '/shop'}
+          breadcrumbs={seoMeta.breadcrumbs}
         />
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-4'} gap-8`}>
           {/* Desktop sidebar */}
