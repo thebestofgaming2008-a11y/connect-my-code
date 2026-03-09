@@ -268,6 +268,19 @@ const Cart = () => {
                 </CardFooter>
               </Card>
             </div>
+
+            {/* Mobile Sticky Checkout Bar */}
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t lg:hidden z-40 flex flex-col gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+              <div className="flex justify-between items-center px-1">
+                <span className="font-semibold">Total</span>
+                <span className="font-bold text-lg">{formatAmount(total)}</span>
+              </div>
+              <Link to={user ? "/checkout" : "/auth?redirect=/checkout"} className="w-full">
+                <Button className="w-full" size="lg">
+                  {user ? "Proceed to Checkout" : "Login to Checkout"}
+                </Button>
+              </Link>
+            </div>
           </div>
         )}
       </main>
