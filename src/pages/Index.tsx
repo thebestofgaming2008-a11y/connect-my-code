@@ -207,7 +207,7 @@ const Index = () => {
 
             {/* Sub-copy — one line, specific */}
             <p className="text-[13px] text-center text-muted-foreground mb-4">
-              500+ authentic titles · Aqeedah to Seerah · Trusted by 500+ readers
+              Authentic titles · Aqeedah to Seerah · Trusted by 500+ customers
             </p>
 
             {/* Trust row — 3 uniform micro-badges */}
