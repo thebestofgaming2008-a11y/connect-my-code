@@ -32,16 +32,28 @@ const ResetPassword = () => {
   const [isRecoveryMode, setIsRecoveryMode] = useState(false);
 
   useEffect(() => {
-    // Check if we're in recovery mode (user clicked reset link from email)
+    // PKCE flow: Supabase exchanges the ?code= param and fires PASSWORD_RECOVERY.
+    // Also support legacy implicit flow via #type=recovery in the hash.
     const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const type = hashParams.get('type');
-    
-    if (type === 'recovery') {
+    if (hashParams.get('type') === 'recovery') {
       setIsRecoveryMode(true);
-    } else {
-      // If not in recovery mode, redirect to auth page
+      return;
+    }
+
+    // Listen for the PASSWORD_RECOVERY event emitted after PKCE code exchange
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsRecoveryMode(true);
+      }
+    });
+
+    // If there's no ?code= param and no hash recovery, redirect away
+    const searchParams = new URLSearchParams(window.location.search);
+    if (!searchParams.get('code') && hashParams.get('type') !== 'recovery') {
       navigate('/auth');
     }
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
