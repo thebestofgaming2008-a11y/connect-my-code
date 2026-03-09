@@ -15,7 +15,7 @@ export interface SiteSection {
 }
 
 const DEFAULT_SECTIONS: SiteSection[] = [
-  { id: 'default-hero', page: 'home', section_key: 'hero', title: 'Authentic Islamic Books from Trusted Publishers', subtitle: 'Classical texts to contemporary works. Every book sourced from verified publishers. Fast shipping across India.', content: { cta_text: 'Shop Authentic Books Now', cta_link: '/shop' }, sort_order: 0, is_visible: true, created_at: null, updated_at: null },
+  { id: 'default-hero', page: 'home', section_key: 'hero', title: 'Authentic Islamic Books from Trusted Publishers', subtitle: 'Every book verified and sourced directly from authorized publishers. No unauthorized prints, no compromises on authenticity.', content: { cta_text: 'Browse Authentic Books', cta_link: '/shop' }, sort_order: 0, is_visible: true, created_at: null, updated_at: null },
   { id: 'default-trust', page: 'home', section_key: 'trust_indicators', title: null, subtitle: null, content: { items: [{ icon: 'BadgeCheck', text: '100% Authentic', color: 'text-green-600' }, { icon: 'Globe', text: 'Free Shipping ₹2000+', color: 'text-blue-600' }, { icon: 'Sparkles', text: '500+ Happy Customers', color: 'text-yellow-500' }] }, sort_order: 1, is_visible: true, created_at: null, updated_at: null },
   { id: 'default-featured', page: 'home', section_key: 'featured_products', title: 'Featured Collection', subtitle: 'Handpicked selections from our catalog', content: { product_count: 4 }, sort_order: 2, is_visible: true, created_at: null, updated_at: null },
   { id: 'default-categories', page: 'home', section_key: 'categories_carousel', title: 'Browse by Genre', subtitle: 'Explore our collection by category', content: {}, sort_order: 3, is_visible: true, created_at: null, updated_at: null },
