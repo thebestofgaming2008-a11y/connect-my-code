@@ -374,9 +374,10 @@ const Shop = () => {
 
       <main className={`flex-1 container px-4 ${isMobile ? 'py-3' : 'py-8 sm:py-12'}`}>
         <SEO
-          title="Shop"
-          description="Browse authentic Islamic books, clothing, and essentials. Filter by category, price, and more. International shipping available."
-          url="/shop"
+          title={seoMeta.title}
+          description={seoMeta.description}
+          url={selectedCategory !== 'all' ? `/shop?category=${selectedCategory}` : searchQuery ? `/shop?search=${encodeURIComponent(searchQuery)}` : '/shop'}
+          breadcrumbs={seoMeta.breadcrumbs}
         />
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-4'} gap-8`}>
           {/* Desktop sidebar */}
