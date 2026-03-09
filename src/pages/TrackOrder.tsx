@@ -146,32 +146,6 @@ const TrackOrder = () => {
     }
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md text-center p-8">
-            <Lock className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Login Required</h2>
-            <p className="text-muted-foreground mb-6">Please login to track your orders.</p>
-            <Button asChild>
-              <Link to="/auth?redirect=/track-order">Login / Sign Up</Link>
-            </Button>
-          </Card>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
