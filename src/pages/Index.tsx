@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Plus, Truck, Shield, Award, Clock, Quote, Loader2, BookOpen, Heart, Headphones, Gift, CheckCircle, Lock, Zap, Globe, Package, ThumbsUp, Users, MapPin, Phone, Mail, Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon, HandHeart, BookMarked, MessageCircle, Crown, Ribbon, ShoppingBag, Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint, Megaphone, CalendarCheck, Palette } from "lucide-react";
+import { Star, Plus, Truck, Shield, Award, Clock, Quote, Loader2, BookOpen, Heart, Headphones, Gift, CheckCircle, Lock, Zap, Globe, Package, ThumbsUp, Users, MapPin, Phone, Mail, Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon, HandHeart, BookMarked, MessageCircle, Crown, Ribbon, ShoppingBag, Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint, Megaphone, CalendarCheck, Palette, ArrowRight } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
@@ -18,6 +18,8 @@ import React from "react";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { useWishlistItems, useToggleWishlistItem } from "@/hooks/useWishlist";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import MobileStickyBar from "@/components/MobileStickyBar";
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Truck, Shield, Award, Clock, Star, Quote, BookOpen, Heart, Headphones, Gift,
@@ -25,7 +27,7 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Instagram, ExternalLink, Sparkles, Gem, BadgeCheck, ShieldCheck, Leaf, Sun, Moon,
   HandHeart, BookMarked, MessageCircle, Plus, Loader2, Crown, Ribbon, ShoppingBag,
   Receipt, CreditCard, Banknote, Landmark, Flame, Handshake, Timer, Fingerprint,
-  Megaphone, CalendarCheck, Palette,
+  Megaphone, CalendarCheck, Palette, ArrowRight,
 };
 
 export { ICON_MAP };
@@ -67,6 +69,7 @@ const Index = () => {
   const { data: wishlistItems = [] } = useWishlistItems();
   const toggleWishlist = useToggleWishlistItem();
   const wishlistIds = new Set(wishlistItems.map(w => w.product_id));
+  const isMobile = useIsMobile();
 
   const displayCategories = categories.filter(c => c.slug !== 'all');
   const visibleSections = sections.filter(s => s.is_visible).sort((a, b) => a.sort_order - b.sort_order);
@@ -185,6 +188,112 @@ const Index = () => {
       ? heroProductIds.map(id => products.find(p => p.id === id)).filter((p): p is typeof products[0] => !!p && !!p.images?.[0])
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
+    // Mobile-optimized hero
+    if (isMobile) {
+      return (
+        <section key={s.id} className="relative overflow-hidden">
+          {/* Compact mobile hero - everything above the fold */}
+          <div className="px-4 pt-6 pb-4 bg-gradient-to-b from-background via-background to-secondary/20">
+            {/* Social proof - immediate trust */}
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="flex -space-x-1.5">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-6 h-6 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
+                    <Users className="h-3 w-3 text-primary" />
+                  </div>
+                ))}
+              </div>
+              <span className="text-xs text-muted-foreground font-medium">
+                <span className="text-primary font-semibold">500+</span> Happy Customers
+              </span>
+              <div className="flex items-center gap-0.5 ml-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+            </div>
+
+            {/* Headline - concise, benefit-focused */}
+            <h1 className="text-2xl font-bold text-center leading-tight text-primary font-philosopher mb-2">
+              Authentic Islamic Books<br />
+              <span className="text-accent">Delivered to Your Door</span>
+            </h1>
+            
+            {/* One-liner value prop */}
+            <p className="text-sm text-center text-muted-foreground mb-4 px-2">
+              From Aqeedah to Seerah — curated classics shipped across India
+            </p>
+
+            {/* Trust badges - horizontal scroll for mobile */}
+            {trustItems.length > 0 && (
+              <div className="flex items-center justify-center gap-2 mb-5 flex-wrap">
+                {trustItems.slice(0, 3).map((item, i) => {
+                  const Icon = ICON_MAP[item.icon] || Shield;
+                  return (
+                    <div key={i} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/60 text-xs">
+                      <Icon className={`h-3.5 w-3.5 ${item.color || 'text-primary'}`} />
+                      <span className="text-foreground/80 font-medium">{item.text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Single prominent CTA */}
+            <Link to={c.cta_link || '/shop'} className="block">
+              <Button 
+                size="lg" 
+                className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2"
+              >
+                <ShoppingBag className="h-5 w-5" />
+                {c.cta_text || 'Shop Collection'}
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+
+            {/* Free shipping notice */}
+            <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
+              <Truck className="h-3.5 w-3.5" />
+              Free shipping on orders above ₹999
+            </p>
+          </div>
+
+          {/* Featured products preview - horizontal scroll */}
+          {heroProducts.length > 0 && (
+            <div className="px-4 py-4 bg-secondary/10">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3 text-center font-medium">Featured Books</p>
+              <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                {heroProducts.slice(0, 4).map((product) => {
+                  const priceInfo = formatPrice(product.price, product.price_inr, product.sale_price, product.sale_price_inr);
+                  return (
+                    <Link key={product.id} to={`/product/${product.id}`} className="flex-shrink-0 w-28 snap-start">
+                      <div className="aspect-[3/4] rounded-lg overflow-hidden bg-secondary/30 shadow-md mb-2">
+                        <ProductImage 
+                          src={product.images?.[0] || '/placeholder.svg'} 
+                          alt={product.name} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className="text-xs font-medium line-clamp-2 leading-tight">{product.name}</p>
+                      <p className="text-xs text-primary font-semibold mt-0.5">{priceInfo.displayPrice}</p>
+                    </Link>
+                  );
+                })}
+                {/* View all card */}
+                <Link to="/shop" className="flex-shrink-0 w-28 snap-start">
+                  <div className="aspect-[3/4] rounded-lg overflow-hidden bg-primary/10 flex flex-col items-center justify-center shadow-md">
+                    <ArrowRight className="h-6 w-6 text-primary mb-2" />
+                    <span className="text-xs font-medium text-primary">View All</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    // Desktop hero (existing)
     return (
       <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
         <div className="container mx-auto">
@@ -316,60 +425,82 @@ const Index = () => {
       displayProducts = featuredProducts.length > 0 ? featuredProducts : validProducts.slice(0, count);
     }
     const desktopColClass = columns === 2 ? 'sm:grid-cols-2' : columns === 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4';
-    const mobile = getMobileClasses(s.content, desktopColClass);
+    
+    // Mobile-optimized: 2-column grid with larger touch targets
+    const mobileProductClasses = isMobile 
+      ? 'grid grid-cols-2 gap-3' 
+      : `grid ${desktopColClass} gap-4 sm:gap-6`;
+
     return (
-      <section key={s.id} className="py-16 md:py-24 px-4">
+      <section key={s.id} className={`${isMobile ? 'py-8' : 'py-16 md:py-24'} px-4`}>
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl mb-3 font-philosopher">{s.title || 'Featured Collection'}</h2>
-            <p className="text-muted-foreground text-sm">{s.subtitle || 'Handpicked selections from our catalog'}</p>
+          <div className={`text-center ${isMobile ? 'mb-6' : 'mb-12'}`}>
+            <h2 className={`${isMobile ? 'text-xl' : 'text-3xl md:text-4xl'} mb-2 font-philosopher`}>{s.title || 'Featured Collection'}</h2>
+            <p className="text-muted-foreground text-xs sm:text-sm">{s.subtitle || 'Handpicked selections from our catalog'}</p>
           </div>
           {isLoading ? (
-            <div className={mobile.wrapperClass} style={mobile.style}>
+            <div className={mobileProductClasses}>
               {[...Array(count)].map((_, i) => (
-                <Card key={i} className={`overflow-hidden border-border/50 bg-card rounded-sm ${mobile.itemClass}`}>
+                <Card key={i} className="overflow-hidden border-border/50 bg-card rounded-lg">
                   <Skeleton className="aspect-[3/4] w-full" />
-                  <div className="p-4 space-y-2"><Skeleton className="h-4 w-3/4" /><Skeleton className="h-4 w-1/2" /><Skeleton className="h-6 w-1/3" /></div>
+                  <div className="p-3 space-y-2"><Skeleton className="h-3 w-3/4" /><Skeleton className="h-4 w-1/2" /></div>
                 </Card>
               ))}
             </div>
           ) : displayProducts.length === 0 ? (
             <div className="text-center py-12"><p className="text-muted-foreground">No products available yet.</p></div>
           ) : (
-            <div className={mobile.wrapperClass} style={mobile.style}>
+            <div className={mobileProductClasses}>
               {displayProducts.map((product) => {
                 const priceInfo = formatPrice(product.price, product.price_inr, product.sale_price, product.sale_price_inr);
+                const isOutOfStock = (product.stock_quantity ?? 0) <= 0;
+                
                 return (
-                  <Card key={product.id} className={`group overflow-hidden border-border/50 hover:border-border transition-all duration-300 bg-card rounded-sm ${mobile.itemClass}`}>
-                    <Link to={`/product/${product.id}`}>
+                  <Card key={product.id} className="group overflow-hidden border-border/50 hover:border-border transition-all duration-300 bg-card rounded-lg">
+                    <Link to={`/product/${product.id}`} className="block">
                       <div className="aspect-[3/4] overflow-hidden bg-secondary/30 relative">
                         <ProductImage src={product.images?.[0] || '/placeholder.svg'} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        {product.badge && <Badge className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-[10px] tracking-wider uppercase rounded-sm">{product.badge}</Badge>}
+                        {product.badge && (
+                          <Badge className={`absolute top-2 left-2 z-10 bg-primary text-primary-foreground ${isMobile ? 'text-[9px] px-1.5 py-0.5' : 'text-[10px]'} tracking-wider uppercase rounded-sm`}>
+                            {product.badge}
+                          </Badge>
+                        )}
+                        {isOutOfStock && (
+                          <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                            <span className="text-xs font-medium text-muted-foreground bg-background/80 px-2 py-1 rounded">Out of Stock</span>
+                          </div>
+                        )}
                         {user && (
                           <button
-                            className="absolute top-3 right-3 z-10 h-8 w-8 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-sm transition-colors"
+                            className={`absolute top-2 right-2 z-10 ${isMobile ? 'h-8 w-8' : 'h-8 w-8'} flex items-center justify-center rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors`}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist.mutate({ productId: product.id }); }}
                           >
-                            <Heart className={`h-4 w-4 ${wishlistIds.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                            <Heart className={`${isMobile ? 'h-4 w-4' : 'h-4 w-4'} ${wishlistIds.has(product.id) ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
                           </button>
                         )}
                       </div>
                     </Link>
-                    <div className="p-4">
-                      <Link to={`/product/${product.id}`}><h3 className="font-medium mb-2 line-clamp-2 hover:text-primary transition-colors text-sm">{product.name}</h3></Link>
-                      {(product.reviews_count || 0) > 0 && (
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => <Star key={i} className={`h-3 w-3 ${i < Math.floor(product.rating || 0) ? 'fill-accent text-accent' : 'text-border'}`} />)}
-                          <span className="text-xs text-muted-foreground ml-1">({product.reviews_count})</span>
+                    <div className={isMobile ? 'p-2.5' : 'p-4'}>
+                      <Link to={`/product/${product.id}`}>
+                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-2'} line-clamp-2 hover:text-primary transition-colors`}>
+                          {product.name}
+                        </h3>
+                      </Link>
+                      {/* Mobile: simplified price + add button */}
+                      <div className="flex items-center justify-between gap-1">
+                        <div className={isMobile ? 'flex flex-col' : 'flex items-center gap-2'}>
+                          <p className={`${isMobile ? 'text-sm' : 'text-base'} font-semibold text-primary`}>{priceInfo.displayPrice}</p>
+                          {priceInfo.originalPrice && (
+                            <p className={`${isMobile ? 'text-[10px]' : 'text-sm'} text-muted-foreground line-through`}>{priceInfo.originalPrice}</p>
+                          )}
                         </div>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <p className="text-base font-medium">{priceInfo.displayPrice}</p>
-                          {priceInfo.originalPrice && <p className="text-sm text-muted-foreground line-through">{priceInfo.originalPrice}</p>}
-                        </div>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-primary hover:text-primary-foreground rounded-sm" disabled={(product.stock_quantity ?? 0) <= 0} onClick={() => handleAddToCart(product)}>
-                          <Plus className="h-4 w-4" />
+                        <Button 
+                          size="sm" 
+                          className={`${isMobile ? 'h-9 w-9' : 'h-8 w-8'} p-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-sm`}
+                          disabled={isOutOfStock} 
+                          onClick={(e) => { e.preventDefault(); handleAddToCart(product); }}
+                        >
+                          <Plus className={isMobile ? 'h-4 w-4' : 'h-4 w-4'} />
                         </Button>
                       </div>
                     </div>
@@ -378,8 +509,16 @@ const Index = () => {
               })}
             </div>
           )}
-          <div className="text-center mt-12">
-            <Link to="/shop"><Button variant="outline" className="border-primary/30 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-5 text-xs tracking-[0.2em] uppercase rounded-sm">View All Products</Button></Link>
+          <div className={`text-center ${isMobile ? 'mt-6' : 'mt-12'}`}>
+            <Link to="/shop">
+              <Button 
+                variant="outline" 
+                className={`border-primary/30 text-foreground hover:bg-primary hover:text-primary-foreground ${isMobile ? 'px-6 py-3 text-xs' : 'px-8 py-5 text-xs'} tracking-[0.15em] uppercase rounded-full`}
+              >
+                View All Products
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -387,11 +526,11 @@ const Index = () => {
   };
 
   const renderCategoriesCarousel = (s: SiteSection) => (
-    <section key={s.id} className="py-12 bg-secondary/30 overflow-hidden">
-      <div className="container mx-auto mb-8">
+    <section key={s.id} className={`${isMobile ? 'py-6' : 'py-12'} bg-secondary/30 overflow-hidden`}>
+      <div className={`container mx-auto ${isMobile ? 'mb-4' : 'mb-8'}`}>
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl mb-3 font-philosopher">{s.title || 'Browse by Genre'}</h2>
-          <p className="text-muted-foreground text-sm">{s.subtitle || 'Explore our collection by category'}</p>
+          <h2 className={`${isMobile ? 'text-xl' : 'text-3xl md:text-4xl'} mb-2 font-philosopher`}>{s.title || 'Browse by Genre'}</h2>
+          <p className="text-muted-foreground text-xs sm:text-sm">{s.subtitle || 'Explore our collection by category'}</p>
         </div>
       </div>
       <div className="relative">
@@ -411,7 +550,7 @@ const Index = () => {
             <Link
               key={index}
               to={`/shop?category=${cat.slug}`}
-              className="flex-shrink-0 mx-3 px-8 py-4 bg-card border border-border/50 rounded-sm hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-sm tracking-wide whitespace-nowrap"
+              className={`flex-shrink-0 mx-2 ${isMobile ? 'px-5 py-3 text-xs' : 'px-8 py-4 text-sm'} bg-card border border-border/50 rounded-full hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 tracking-wide whitespace-nowrap`}
               onClick={(e) => { if (dragDistance.current > 5) e.preventDefault(); }}
               draggable={false}
             >
@@ -430,6 +569,31 @@ const Index = () => {
       { icon: 'Gem', title: 'Expert Curation', description: 'Our collection is carefully selected for quality and relevance' },
       { icon: 'Headphones', title: 'Customer Support', description: 'Reach us anytime via WhatsApp or our contact page' },
     ]) as Array<{ icon: string; title: string; description: string }>;
+    
+    if (isMobile) {
+      return (
+        <section key={s.id} className="py-8 px-4 bg-primary text-primary-foreground">
+          <div className="container mx-auto">
+            <h2 className="text-xl text-center mb-5 font-philosopher">{s.title || 'Why Choose Us'}</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {items.map((item, i) => {
+                const Icon = ICON_MAP[item.icon] || Shield;
+                return (
+                  <div key={i} className="bg-primary-foreground/10 rounded-xl p-3.5 text-center">
+                    <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-primary-foreground/10 flex items-center justify-center">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-xs font-semibold mb-1">{item.title}</h3>
+                    <p className="text-[10px] text-primary-foreground/70 leading-relaxed">{item.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section key={s.id} className="py-16 md:py-24 px-4 bg-primary text-primary-foreground">
         <div className="container mx-auto">
@@ -459,6 +623,56 @@ const Index = () => {
     const items = (s.content?.items || []) as Array<{ name: string; rating: number; text: string; date: string }>;
     const instagramLink = s.content?.instagram_link as string | undefined;
     if (items.length === 0) return null;
+
+    if (isMobile) {
+      return (
+        <section key={s.id} className="py-8 px-4">
+          <div className="container mx-auto">
+            <div className="text-center mb-5">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                  ))}
+                </div>
+                <span className="text-sm font-semibold">4.9/5</span>
+              </div>
+              <h2 className="text-xl font-philosopher mb-1">{s.title || 'Customer Reviews'}</h2>
+              <p className="text-xs text-muted-foreground">Based on {items.length * 50}+ reviews</p>
+            </div>
+            <div className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+              {items.slice(0, 6).map((review, i) => (
+                <Card key={i} className="flex-shrink-0 w-[80vw] max-w-[300px] snap-center p-4 border-border/40 bg-card rounded-xl">
+                  <div className="flex items-center gap-0.5 mb-2">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className={`h-3 w-3 ${j < review.rating ? 'fill-accent text-accent' : 'text-border'}`} />
+                    ))}
+                  </div>
+                  <p className="text-xs text-foreground/80 mb-3 leading-relaxed line-clamp-4">"{review.text}"</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-medium">{review.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{review.date}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <Link to="/reviews">
+                <Button size="sm" variant="outline" className="text-xs h-9 rounded-full px-4">All Reviews</Button>
+              </Link>
+              {instagramLink && (
+                <a href={instagramLink} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" variant="outline" className="text-xs h-9 rounded-full px-4 gap-1.5">
+                    <Instagram className="h-3.5 w-3.5" /> Instagram
+                  </Button>
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section key={s.id} className="py-16 md:py-24 px-4">
         <div className="container mx-auto">
@@ -472,7 +686,7 @@ const Index = () => {
               <Card key={i} className={`p-6 border-border/40 bg-card rounded-lg relative flex flex-col ${m.itemClass}`}>
                 <Quote className="absolute top-4 right-4 h-6 w-6 text-primary/10" />
                 <div className="flex items-center gap-0.5 mb-3">
-                  {[...Array(5)].map((_, j) => <Star key={j} className={`h-3.5 w-3.5 ${j < review.rating ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
+                  {[...Array(5)].map((_, j) => <Star key={j} className={`h-3.5 w-3.5 ${j < review.rating ? 'fill-accent text-accent' : 'text-border'}`} />)}
                 </div>
                 <p className="text-sm text-foreground/80 mb-4 leading-relaxed flex-1">"{review.text}"</p>
                 <div className="pt-3 border-t border-border/30"><p className="font-semibold text-sm">{review.name}</p><p className="text-xs text-muted-foreground mt-0.5">{review.date}</p></div>
@@ -481,15 +695,12 @@ const Index = () => {
           </div>); })()}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
             <Link to="/reviews">
-              <Button variant="outline" className="gap-2">
-                Show More Reviews
-              </Button>
+              <Button variant="outline" className="gap-2">Show More Reviews</Button>
             </Link>
             {instagramLink && (
               <a href={instagramLink} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="gap-2">
-                  <Instagram className="h-4 w-4" />
-                  Follow Us on Instagram
+                  <Instagram className="h-4 w-4" /> Follow Us on Instagram
                 </Button>
               </a>
             )}
@@ -602,6 +813,7 @@ const Index = () => {
         return renderer ? renderer(section) : null;
       })}
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 };
