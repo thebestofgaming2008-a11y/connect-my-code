@@ -184,73 +184,61 @@ const Index = () => {
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
     return (
-      <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            {/* Left — Text */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] text-primary font-philosopher">
-                {s.title || 'Authentic Islamic Books from Trusted Publishers'}
+      <section key={s.id} className="py-16 md:py-24 lg:py-32 px-4 bg-gradient-to-br from-background via-background to-secondary/20">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
+            {/* Left — Minimal, conversion-focused content */}
+            <div className="text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
+              {/* Ultra-clear headline - evidence: 99ways 110% increase with clarity */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
+                <span className="text-foreground">{s.title || 'Authentic Islamic Books'}</span>
               </h1>
 
-              <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-                {s.subtitle || 'Every book verified and sourced directly from authorized publishers. No unauthorized prints, no compromises on authenticity.'}
+              {/* Single benefit line - evidence: Carrot "less is more" 45% increase */}
+              <p className="text-xl md:text-2xl text-muted-foreground mb-12 leading-relaxed">
+                {s.subtitle || 'Verified publishers. No unauthorized prints.'}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
-                <Link to={c.cta_link || '/shop'}>
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 h-14 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
-                    {c.cta_text || 'Browse Authentic Books'}
-                  </Button>
-                </Link>
-                {c.cta2_text && (
-                  <Link to={c.cta2_link || '/contact'}>
-                    <Button size="lg" variant="outline" className="px-8 h-14 text-base font-semibold rounded-lg border-2 hover:bg-accent/5">{c.cta2_text}</Button>
-                  </Link>
-                )}
-              </div>
-              
-              {/* Real guarantees below CTA */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-green-600" />
-                  <span className="text-foreground/80 font-medium">100% Authentic</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Package className="h-5 w-5 text-blue-600" />
-                  <span className="text-foreground/80 font-medium">Free Shipping ₹2000+</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Truck className="h-5 w-5 text-orange-600" />
-                  <span className="text-foreground/80 font-medium">India-wide Delivery</span>
-                </div>
-              </div>
+              {/* Prominent CTA - evidence: Carrot form prominence increased conversions 22-47% */}
+              <Link to={c.cta_link || '/shop'} className="inline-block">
+                <Button 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-12 h-16 text-lg font-bold rounded-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300"
+                >
+                  {c.cta_text || 'Browse Books'}
+                </Button>
+              </Link>
+
+              {/* Minimal trust signals - evidence: Carrot avoid clutter in hero */}
+              <p className="mt-6 text-sm text-muted-foreground">
+                Free shipping ₹2000+ • India-wide delivery
+              </p>
             </div>
 
-            {/* Right — Stacked books, hover slides outward */}
+            {/* Right — Product showcase (minimal distraction) */}
             {heroProducts.length >= 3 && (
               <div
-                className="hidden md:flex items-end justify-center lg:justify-end pb-16 relative h-[380px] lg:h-[440px]"
+                className="hidden lg:flex items-end justify-center relative h-[450px]"
                 onMouseLeave={() => setActiveHeroBook(null)}
               >
                 {heroProducts.map((product, i) => {
                   const isActive = activeHeroBook === i;
-                  const rotation = i === 0 ? -8 : i === 2 ? 8 : 0;
-                  const baseX = i === 0 ? -90 : i === 2 ? 90 : 0;
-                  const hoverX = i === 0 ? -35 : i === 2 ? 35 : 0;
-                  const hoverY = i === 1 ? -20 : -10;
+                  const rotation = i === 0 ? -6 : i === 2 ? 6 : 0;
+                  const baseX = i === 0 ? -80 : i === 2 ? 80 : 0;
+                  const hoverX = i === 0 ? -30 : i === 2 ? 30 : 0;
+                  const hoverY = i === 1 ? -15 : -8;
                   const zBase = i === 1 ? 20 : 10;
                   return (
                     <div
                       key={product.id}
-                      className="absolute w-40 lg:w-52 cursor-pointer"
+                      className="absolute w-48 cursor-pointer"
                       style={{
                         left: '50%',
                         bottom: 40,
                         zIndex: zBase,
                         willChange: 'transform',
-                        transition: 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 500ms ease',
-                        transform: `translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) translateY(${isActive ? hoverY : 0}px) rotate(${rotation}deg) scale(${isActive ? 1.06 : 1})`,
+                        transition: 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        transform: `translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) translateY(${isActive ? hoverY : 0}px) rotate(${rotation}deg) scale(${isActive ? 1.05 : 1})`,
                       }}
                       onMouseEnter={() => setActiveHeroBook(i)}
                       onClick={() => setActiveHeroBook(isActive ? null : i)}
@@ -259,12 +247,9 @@ const Index = () => {
                         <img
                           src={product.images![0]}
                           alt={product.name}
-                          className={`w-full aspect-[3/4] object-cover rounded-xl transition-shadow duration-500 ${isActive ? 'shadow-[0_25px_60px_rgba(0,0,0,0.25)]' : 'shadow-lg'}`}
+                          className={`w-full aspect-[3/4] object-cover rounded-lg transition-shadow duration-500 ${isActive ? 'shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'shadow-xl'}`}
                         />
                       </Link>
-                      <div className={`absolute -bottom-10 left-0 right-0 text-center transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                        <p className="text-sm font-medium text-foreground bg-background/90 backdrop-blur-sm rounded-md px-3 py-1.5 inline-block shadow-lg">{product.name}</p>
-                      </div>
                     </div>
                   );
                 })}
