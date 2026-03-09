@@ -176,6 +176,12 @@ const ProductDetail = () => {
         image={images[0]}
         url={`/product/${product.id}`}
         type="product"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Shop', url: '/shop' },
+          { name: product.category?.charAt(0).toUpperCase() + product.category?.slice(1) || 'Products', url: `/shop?category=${product.category}` },
+          { name: product.name, url: `/product/${product.id}` },
+        ]}
         product={{
           name: product.name,
           price: priceInfo.numericPrice,
@@ -185,6 +191,12 @@ const ProductDetail = () => {
           description: product.description?.slice(0, 300),
           rating: product.rating || undefined,
           reviewCount: product.reviews_count || undefined,
+          brand: product.publisher || 'Abu Hurayrah Essentials',
+          sku: product.sku || product.id,
+          isbn: product.isbn_13 || product.isbn || undefined,
+          author: product.author || undefined,
+          language: product.language || undefined,
+          pages: product.pages || undefined,
         }}
       />
       <Header />
