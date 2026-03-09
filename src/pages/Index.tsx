@@ -237,7 +237,7 @@ const Index = () => {
                   const isActive = activeHeroBook === i;
                   const rotation = i === 0 ? -8 : i === 2 ? 8 : 0;
                   const baseX = i === 0 ? -90 : i === 2 ? 90 : 0;
-                  const hoverX = i === 0 ? -35 : i === 2 : 35 : 0;
+                  const hoverX = i === 0 ? -35 : i === 2 ? 35 : 0;
                   const hoverY = i === 1 ? -20 : -10;
                   const zBase = i === 1 ? 20 : 10;
                   return (
