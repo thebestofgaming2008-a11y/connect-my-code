@@ -69,6 +69,7 @@ const Index = () => {
   const { data: wishlistItems = [] } = useWishlistItems();
   const toggleWishlist = useToggleWishlistItem();
   const wishlistIds = new Set(wishlistItems.map(w => w.product_id));
+  const isMobile = useIsMobile();
 
   const displayCategories = categories.filter(c => c.slug !== 'all');
   const visibleSections = sections.filter(s => s.is_visible).sort((a, b) => a.sort_order - b.sort_order);
