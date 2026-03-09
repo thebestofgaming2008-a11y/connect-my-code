@@ -81,38 +81,41 @@ const CheckoutSuccess = () => {
             </div>
           </div>
 
-          {/* How to track */}
-          <div className="rounded-xl border border-border bg-card p-5 sm:p-6 mb-6 shadow-sm space-y-4">
+          {/* How to track — No email, on-site only */}
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 sm:p-6 mb-6 shadow-sm space-y-4">
             <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
               <Truck className="h-4 w-4" />
               How to Track Your Order
             </h2>
+            <p className="text-xs text-muted-foreground">
+              <strong className="text-foreground">Important:</strong> All order updates appear on this website — no emails will be sent.
+            </p>
             <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Mail className="h-3.5 w-3.5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Email Confirmation</p>
-                  <p className="text-xs text-muted-foreground">You'll receive a confirmation email with your order details shortly.</p>
-                </div>
-              </div>
               <div className="flex items-start gap-3">
                 <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <ClipboardList className="h-3.5 w-3.5 text-primary" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">My Orders Page</p>
-                  <p className="text-xs text-muted-foreground">View your order status, details, and tracking info anytime from your account.</p>
+                  <p className="text-xs text-muted-foreground">Your order hub — check status, tracking info, and updates anytime. Bookmark it!</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Truck className="h-3.5 w-3.5 text-primary" />
+                  <Package className="h-3.5 w-3.5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium">Tracking Updates</p>
-                  <p className="text-xs text-muted-foreground">Once shipped, you'll get a tracking number via email. Use it on the Track Order page.</p>
+                  <p className="text-sm font-medium">Save Your Order Number</p>
+                  <p className="text-xs text-muted-foreground">Use your order number on the Track Order page if you're not logged in.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="h-3.5 w-3.5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">WhatsApp Support</p>
+                  <p className="text-xs text-muted-foreground">Questions? Chat with us on WhatsApp for real-time help.</p>
                 </div>
               </div>
             </div>

@@ -75,11 +75,20 @@ const MyOrders = () => {
           </Link>
         </Button>
 
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground font-philosopher">My Orders</h1>
           {orders.length > 0 && (
             <p className="text-sm text-muted-foreground mt-1">{orders.length} order{orders.length !== 1 ? 's' : ''}</p>
           )}
+        </div>
+
+        {/* Info banner — no email, check here */}
+        <div className="mb-6 rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-start gap-3">
+          <Package className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-foreground">This is your order hub</p>
+            <p className="text-xs text-muted-foreground">All order updates appear here — no emails will be sent. Bookmark this page and check back for status changes.</p>
+          </div>
         </div>
 
         {isLoading ? (

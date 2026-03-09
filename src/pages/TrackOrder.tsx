@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Package, CheckCircle, Truck, Clock, Lock } from 'lucide-react';
+import { Loader2, Package, CheckCircle, Truck, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
 import { formatOrderCurrency } from '@/lib/pricing';
