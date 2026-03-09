@@ -22,6 +22,42 @@ import { useWishlistItems, useToggleWishlistItem } from "@/hooks/useWishlist";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// Build category-aware SEO meta content
+function getCategorySEO(category: string, search: string, categories: { name: string; slug: string }[]) {
+  if (search) {
+    return {
+      title: `Search: "${search}" – Islamic Books & Essentials`,
+      description: `Search results for "${search}" at Abu Hurayrah Essentials. Authentic Islamic books, clothing, and essentials.`,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Shop', url: '/shop' },
+        { name: `"${search}"`, url: `/shop?search=${encodeURIComponent(search)}` },
+      ],
+    };
+  }
+  if (category && category !== 'all') {
+    const cat = categories.find(c => c.slug === category);
+    const catName = cat?.name || category.charAt(0).toUpperCase() + category.slice(1);
+    return {
+      title: `${catName} – Islamic Books & Essentials`,
+      description: `Shop authentic ${catName} at Abu Hurayrah Essentials. Carefully curated selection from verified publishers. Free shipping in India.`,
+      breadcrumbs: [
+        { name: 'Home', url: '/' },
+        { name: 'Shop', url: '/shop' },
+        { name: catName, url: `/shop?category=${category}` },
+      ],
+    };
+  }
+  return {
+    title: 'Shop Islamic Books, Clothing & Essentials',
+    description: 'Browse our full collection of authentic Islamic books, clothing, and essentials. Filter by category, price, and more. Free shipping in India.',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Shop', url: '/shop' },
+    ],
+  };
+}
+
 const Shop = () => {
   useDocumentTitle('Shop');
   const [searchParams] = useSearchParams();
