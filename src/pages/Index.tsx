@@ -711,6 +711,7 @@ const Index = () => {
         return renderer ? renderer(section) : null;
       })}
       <Footer />
+      <MobileStickyBar />
     </div>
   );
 };
