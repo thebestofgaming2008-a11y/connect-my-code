@@ -49,6 +49,8 @@ const ProductDetail = () => {
   const [reviewForm, setReviewForm] = useState({ rating: 5, title: '', content: '' });
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [reviewSort, setReviewSort] = useState<ReviewSortOption>('newest');
+  const reviewStats = useReviewStats(reviews);
   const imageScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
