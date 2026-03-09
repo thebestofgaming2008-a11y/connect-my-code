@@ -267,7 +267,7 @@ const Checkout = () => {
 
           <h1 className="text-2xl sm:text-3xl font-bold mb-6 font-philosopher">Checkout</h1>
 
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6">
             {/* Shipping Form */}
             <Card>
               <CardHeader className="pb-4">
