@@ -188,59 +188,47 @@ const Index = () => {
       ? heroProductIds.map(id => products.find(p => p.id === id)).filter((p): p is typeof products[0] => !!p && !!p.images?.[0])
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
-    // Mobile-optimized hero
+    // Mobile-optimized hero — conversion-focused, modeled on top bookstore mobile UX
     if (isMobile) {
       return (
         <section key={s.id} className="relative overflow-hidden">
-          {/* Compact mobile hero - everything above the fold */}
-          <div className="px-4 pt-6 pb-4 bg-gradient-to-b from-background via-background to-secondary/20">
-            {/* Social proof - immediate trust */}
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="flex -space-x-1.5">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-6 h-6 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
-                    <Users className="h-3 w-3 text-primary" />
-                  </div>
-                ))}
-              </div>
-              <span className="text-xs text-muted-foreground font-medium">
-                <span className="text-primary font-semibold">500+</span> Happy Customers
-              </span>
-              <div className="flex items-center gap-0.5 ml-1">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
+          <div className="px-4 pt-5 pb-5 bg-gradient-to-b from-background to-secondary/20">
+            {/* Urgency / value strip */}
+            <div className="flex items-center justify-center gap-1.5 mb-4 py-1.5 px-3 rounded-lg bg-accent/10 border border-accent/20">
+              <Globe className="h-3.5 w-3.5 text-accent" />
+              <span className="text-xs font-semibold text-accent">International Shipping Available</span>
             </div>
 
-            {/* Headline - concise, benefit-focused */}
-            <h1 className="text-2xl font-bold text-center leading-tight text-primary font-philosopher mb-2">
-              Authentic Islamic Books<br />
-              <span className="text-accent">Delivered to Your Door</span>
+            {/* Headline — short, scannable, benefit-first */}
+            <h1 className="text-[1.65rem] font-bold text-center leading-[1.2] text-primary font-philosopher mb-1.5">
+              Your Islamic Library,<br />
+              <span className="text-accent">Delivered Worldwide</span>
             </h1>
-            
-            {/* One-liner value prop */}
-            <p className="text-sm text-center text-muted-foreground mb-4 px-2">
-              From Aqeedah to Seerah — curated classics shipped across India
+
+            {/* Sub-copy — one line, specific */}
+            <p className="text-[13px] text-center text-muted-foreground mb-4">
+              500+ authentic titles · Aqeedah to Seerah · Trusted by 500+ readers
             </p>
 
-            {/* Trust badges - simple, uniform pills */}
-            {trustItems.length > 0 && (
-              <div className="flex items-center justify-center gap-1.5 mb-5 flex-wrap">
-                {trustItems.slice(0, 3).map((item, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-border/60 bg-card text-xs text-muted-foreground">
-                    <CheckCircle className="h-3 w-3 text-primary" />
-                    {item.text}
-                  </span>
-                ))}
-              </div>
-            )}
+            {/* Trust row — 3 uniform micro-badges */}
+            <div className="flex items-center justify-center gap-1.5 mb-4">
+              {[
+                '100% Authentic',
+                'Worldwide Delivery',
+                'Secure Checkout',
+              ].map((text, i) => (
+                <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-border/50 bg-card text-[11px] text-muted-foreground">
+                  <CheckCircle className="h-2.5 w-2.5 text-primary" />
+                  {text}
+                </span>
+              ))}
+            </div>
 
-            {/* Single prominent CTA */}
-            <Link to={c.cta_link || '/shop'} className="block">
+            {/* Primary CTA */}
+            <Link to={c.cta_link || '/shop'} className="block mb-2">
               <Button 
                 size="lg" 
-                className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2"
+                className="w-full h-[52px] bg-primary text-primary-foreground hover:bg-primary/90 text-[15px] font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2"
               >
                 <ShoppingBag className="h-5 w-5" />
                 {c.cta_text || 'Shop Collection'}
@@ -248,41 +236,48 @@ const Index = () => {
               </Button>
             </Link>
 
-            {/* Free shipping notice */}
-            <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
-              <Truck className="h-3.5 w-3.5" />
-              Free shipping on orders above ₹999
-            </p>
+            {/* Social proof — compact star row */}
+            <div className="flex items-center justify-center gap-1.5 mt-2">
+              <div className="flex items-center gap-0.5">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Star key={i} className="h-3 w-3 fill-accent text-accent" />
+                ))}
+              </div>
+              <span className="text-[11px] text-muted-foreground">Rated 4.9 by 500+ customers</span>
+            </div>
           </div>
 
-          {/* Featured products preview - horizontal scroll */}
+          {/* Featured products — horizontal scroll with prices & add-to-cart feel */}
           {heroProducts.length > 0 && (
-            <div className="px-4 py-4 bg-secondary/10">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3 text-center font-medium">Featured Books</p>
-              <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-                {heroProducts.slice(0, 4).map((product) => {
+            <div className="px-4 pt-3 pb-4 bg-secondary/10">
+              <div className="flex items-center justify-between mb-2.5">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wider">Bestsellers</p>
+                <Link to="/shop" className="text-xs text-primary font-medium flex items-center gap-0.5">
+                  View All <ArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+              <div className="flex gap-2.5 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                {heroProducts.slice(0, 5).map((product) => {
                   const priceInfo = formatPrice(product.price, product.price_inr, product.sale_price, product.sale_price_inr);
                   return (
-                    <Link key={product.id} to={`/product/${product.id}`} className="flex-shrink-0 w-28 snap-start">
-                      <div className="aspect-[3/4] rounded-lg overflow-hidden bg-secondary/30 shadow-md mb-2">
+                    <Link key={product.id} to={`/product/${product.id}`} className="flex-shrink-0 w-[120px] snap-start group">
+                      <div className="aspect-[3/4] rounded-lg overflow-hidden bg-card border border-border/40 shadow-sm mb-1.5 relative">
                         <ProductImage 
                           src={product.images?.[0] || '/placeholder.svg'} 
                           alt={product.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-active:scale-95"
                         />
+                        {product.badge && (
+                          <span className="absolute top-1 left-1 bg-accent text-accent-foreground text-[9px] font-bold px-1.5 py-0.5 rounded">
+                            {product.badge}
+                          </span>
+                        )}
                       </div>
-                      <p className="text-xs font-medium line-clamp-2 leading-tight">{product.name}</p>
-                      <p className="text-xs text-primary font-semibold mt-0.5">{priceInfo.displayPrice}</p>
+                      <p className="text-[11px] font-medium line-clamp-2 leading-tight text-foreground">{product.name}</p>
+                      <p className="text-xs text-primary font-bold mt-0.5">{priceInfo.displayPrice}</p>
                     </Link>
                   );
                 })}
-                {/* View all card */}
-                <Link to="/shop" className="flex-shrink-0 w-28 snap-start">
-                  <div className="aspect-[3/4] rounded-lg overflow-hidden bg-primary/10 flex flex-col items-center justify-center shadow-md">
-                    <ArrowRight className="h-6 w-6 text-primary mb-2" />
-                    <span className="text-xs font-medium text-primary">View All</span>
-                  </div>
-                </Link>
               </div>
             </div>
           )}
