@@ -188,6 +188,112 @@ const Index = () => {
       ? heroProductIds.map(id => products.find(p => p.id === id)).filter((p): p is typeof products[0] => !!p && !!p.images?.[0])
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
+    // Mobile-optimized hero
+    if (isMobile) {
+      return (
+        <section key={s.id} className="relative overflow-hidden">
+          {/* Compact mobile hero - everything above the fold */}
+          <div className="px-4 pt-6 pb-4 bg-gradient-to-b from-background via-background to-secondary/20">
+            {/* Social proof - immediate trust */}
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="flex -space-x-1.5">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-6 h-6 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
+                    <Users className="h-3 w-3 text-primary" />
+                  </div>
+                ))}
+              </div>
+              <span className="text-xs text-muted-foreground font-medium">
+                <span className="text-primary font-semibold">500+</span> Happy Customers
+              </span>
+              <div className="flex items-center gap-0.5 ml-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+            </div>
+
+            {/* Headline - concise, benefit-focused */}
+            <h1 className="text-2xl font-bold text-center leading-tight text-primary font-philosopher mb-2">
+              Authentic Islamic Books<br />
+              <span className="text-accent">Delivered to Your Door</span>
+            </h1>
+            
+            {/* One-liner value prop */}
+            <p className="text-sm text-center text-muted-foreground mb-4 px-2">
+              From Aqeedah to Seerah — curated classics shipped across India
+            </p>
+
+            {/* Trust badges - horizontal scroll for mobile */}
+            {trustItems.length > 0 && (
+              <div className="flex items-center justify-center gap-2 mb-5 flex-wrap">
+                {trustItems.slice(0, 3).map((item, i) => {
+                  const Icon = ICON_MAP[item.icon] || Shield;
+                  return (
+                    <div key={i} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/60 text-xs">
+                      <Icon className={`h-3.5 w-3.5 ${item.color || 'text-primary'}`} />
+                      <span className="text-foreground/80 font-medium">{item.text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Single prominent CTA */}
+            <Link to={c.cta_link || '/shop'} className="block">
+              <Button 
+                size="lg" 
+                className="w-full h-14 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold rounded-xl shadow-lg flex items-center justify-center gap-2"
+              >
+                <ShoppingBag className="h-5 w-5" />
+                {c.cta_text || 'Shop Collection'}
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+
+            {/* Free shipping notice */}
+            <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1.5">
+              <Truck className="h-3.5 w-3.5" />
+              Free shipping on orders above ₹999
+            </p>
+          </div>
+
+          {/* Featured products preview - horizontal scroll */}
+          {heroProducts.length > 0 && (
+            <div className="px-4 py-4 bg-secondary/10">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3 text-center font-medium">Featured Books</p>
+              <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                {heroProducts.slice(0, 4).map((product) => {
+                  const priceInfo = formatPrice(product.price, product.price_inr, product.sale_price, product.sale_price_inr);
+                  return (
+                    <Link key={product.id} to={`/product/${product.id}`} className="flex-shrink-0 w-28 snap-start">
+                      <div className="aspect-[3/4] rounded-lg overflow-hidden bg-secondary/30 shadow-md mb-2">
+                        <ProductImage 
+                          src={product.images?.[0] || '/placeholder.svg'} 
+                          alt={product.name} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className="text-xs font-medium line-clamp-2 leading-tight">{product.name}</p>
+                      <p className="text-xs text-primary font-semibold mt-0.5">{priceInfo.displayPrice}</p>
+                    </Link>
+                  );
+                })}
+                {/* View all card */}
+                <Link to="/shop" className="flex-shrink-0 w-28 snap-start">
+                  <div className="aspect-[3/4] rounded-lg overflow-hidden bg-primary/10 flex flex-col items-center justify-center shadow-md">
+                    <ArrowRight className="h-6 w-6 text-primary mb-2" />
+                    <span className="text-xs font-medium text-primary">View All</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    // Desktop hero (existing)
     return (
       <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
         <div className="container mx-auto">
