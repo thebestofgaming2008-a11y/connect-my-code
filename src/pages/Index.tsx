@@ -207,7 +207,7 @@ const Index = () => {
 
             {/* Sub-copy — one line, specific */}
             <p className="text-[13px] text-center text-muted-foreground mb-4">
-              500+ authentic titles · Aqeedah to Seerah · Trusted by 500+ readers
+              Authentic titles · Aqeedah to Seerah · Trusted by 500+ customers
             </p>
 
             {/* Trust row — 3 uniform micro-badges */}
@@ -236,14 +236,10 @@ const Index = () => {
               </Button>
             </Link>
 
-            {/* Social proof — compact star row */}
+            {/* Social proof — honest, no fake ratings */}
             <div className="flex items-center justify-center gap-1.5 mt-2">
-              <div className="flex items-center gap-0.5">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <Star key={i} className="h-3 w-3 fill-accent text-accent" />
-                ))}
-              </div>
-              <span className="text-[11px] text-muted-foreground">Rated 4.9 by 500+ customers</span>
+              <Users className="h-3.5 w-3.5 text-primary" />
+              <span className="text-[11px] text-muted-foreground">Loved by 500+ customers worldwide</span>
             </div>
           </div>
 
