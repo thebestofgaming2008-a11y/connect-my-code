@@ -425,60 +425,82 @@ const Index = () => {
       displayProducts = featuredProducts.length > 0 ? featuredProducts : validProducts.slice(0, count);
     }
     const desktopColClass = columns === 2 ? 'sm:grid-cols-2' : columns === 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4';
-    const mobile = getMobileClasses(s.content, desktopColClass);
+    
+    // Mobile-optimized: 2-column grid with larger touch targets
+    const mobileProductClasses = isMobile 
+      ? 'grid grid-cols-2 gap-3' 
+      : `grid ${desktopColClass} gap-4 sm:gap-6`;
+
     return (
-      <section key={s.id} className="py-16 md:py-24 px-4">
+      <section key={s.id} className={`${isMobile ? 'py-8' : 'py-16 md:py-24'} px-4`}>
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl mb-3 font-philosopher">{s.title || 'Featured Collection'}</h2>
-            <p className="text-muted-foreground text-sm">{s.subtitle || 'Handpicked selections from our catalog'}</p>
+          <div className={`text-center ${isMobile ? 'mb-6' : 'mb-12'}`}>
+            <h2 className={`${isMobile ? 'text-xl' : 'text-3xl md:text-4xl'} mb-2 font-philosopher`}>{s.title || 'Featured Collection'}</h2>
+            <p className="text-muted-foreground text-xs sm:text-sm">{s.subtitle || 'Handpicked selections from our catalog'}</p>
           </div>
           {isLoading ? (
-            <div className={mobile.wrapperClass} style={mobile.style}>
+            <div className={mobileProductClasses}>
               {[...Array(count)].map((_, i) => (
-                <Card key={i} className={`overflow-hidden border-border/50 bg-card rounded-sm ${mobile.itemClass}`}>
+                <Card key={i} className="overflow-hidden border-border/50 bg-card rounded-lg">
                   <Skeleton className="aspect-[3/4] w-full" />
-                  <div className="p-4 space-y-2"><Skeleton className="h-4 w-3/4" /><Skeleton className="h-4 w-1/2" /><Skeleton className="h-6 w-1/3" /></div>
+                  <div className="p-3 space-y-2"><Skeleton className="h-3 w-3/4" /><Skeleton className="h-4 w-1/2" /></div>
                 </Card>
               ))}
             </div>
           ) : displayProducts.length === 0 ? (
             <div className="text-center py-12"><p className="text-muted-foreground">No products available yet.</p></div>
           ) : (
-            <div className={mobile.wrapperClass} style={mobile.style}>
+            <div className={mobileProductClasses}>
               {displayProducts.map((product) => {
                 const priceInfo = formatPrice(product.price, product.price_inr, product.sale_price, product.sale_price_inr);
+                const isOutOfStock = (product.stock_quantity ?? 0) <= 0;
+                
                 return (
-                  <Card key={product.id} className={`group overflow-hidden border-border/50 hover:border-border transition-all duration-300 bg-card rounded-sm ${mobile.itemClass}`}>
-                    <Link to={`/product/${product.id}`}>
+                  <Card key={product.id} className="group overflow-hidden border-border/50 hover:border-border transition-all duration-300 bg-card rounded-lg">
+                    <Link to={`/product/${product.id}`} className="block">
                       <div className="aspect-[3/4] overflow-hidden bg-secondary/30 relative">
                         <ProductImage src={product.images?.[0] || '/placeholder.svg'} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        {product.badge && <Badge className="absolute top-3 left-3 z-10 bg-primary text-primary-foreground text-[10px] tracking-wider uppercase rounded-sm">{product.badge}</Badge>}
+                        {product.badge && (
+                          <Badge className={`absolute top-2 left-2 z-10 bg-primary text-primary-foreground ${isMobile ? 'text-[9px] px-1.5 py-0.5' : 'text-[10px]'} tracking-wider uppercase rounded-sm`}>
+                            {product.badge}
+                          </Badge>
+                        )}
+                        {isOutOfStock && (
+                          <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                            <span className="text-xs font-medium text-muted-foreground bg-background/80 px-2 py-1 rounded">Out of Stock</span>
+                          </div>
+                        )}
                         {user && (
                           <button
-                            className="absolute top-3 right-3 z-10 h-8 w-8 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-sm transition-colors"
+                            className={`absolute top-2 right-2 z-10 ${isMobile ? 'h-8 w-8' : 'h-8 w-8'} flex items-center justify-center rounded-full bg-background/80 hover:bg-background shadow-sm transition-colors`}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist.mutate({ productId: product.id }); }}
                           >
-                            <Heart className={`h-4 w-4 ${wishlistIds.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                            <Heart className={`${isMobile ? 'h-4 w-4' : 'h-4 w-4'} ${wishlistIds.has(product.id) ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
                           </button>
                         )}
                       </div>
                     </Link>
-                    <div className="p-4">
-                      <Link to={`/product/${product.id}`}><h3 className="font-medium mb-2 line-clamp-2 hover:text-primary transition-colors text-sm">{product.name}</h3></Link>
-                      {(product.reviews_count || 0) > 0 && (
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => <Star key={i} className={`h-3 w-3 ${i < Math.floor(product.rating || 0) ? 'fill-accent text-accent' : 'text-border'}`} />)}
-                          <span className="text-xs text-muted-foreground ml-1">({product.reviews_count})</span>
+                    <div className={isMobile ? 'p-2.5' : 'p-4'}>
+                      <Link to={`/product/${product.id}`}>
+                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-2'} line-clamp-2 hover:text-primary transition-colors`}>
+                          {product.name}
+                        </h3>
+                      </Link>
+                      {/* Mobile: simplified price + add button */}
+                      <div className="flex items-center justify-between gap-1">
+                        <div className={isMobile ? 'flex flex-col' : 'flex items-center gap-2'}>
+                          <p className={`${isMobile ? 'text-sm' : 'text-base'} font-semibold text-primary`}>{priceInfo.displayPrice}</p>
+                          {priceInfo.originalPrice && (
+                            <p className={`${isMobile ? 'text-[10px]' : 'text-sm'} text-muted-foreground line-through`}>{priceInfo.originalPrice}</p>
+                          )}
                         </div>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <p className="text-base font-medium">{priceInfo.displayPrice}</p>
-                          {priceInfo.originalPrice && <p className="text-sm text-muted-foreground line-through">{priceInfo.originalPrice}</p>}
-                        </div>
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-primary hover:text-primary-foreground rounded-sm" disabled={(product.stock_quantity ?? 0) <= 0} onClick={() => handleAddToCart(product)}>
-                          <Plus className="h-4 w-4" />
+                        <Button 
+                          size="sm" 
+                          className={`${isMobile ? 'h-9 w-9' : 'h-8 w-8'} p-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-sm`}
+                          disabled={isOutOfStock} 
+                          onClick={(e) => { e.preventDefault(); handleAddToCart(product); }}
+                        >
+                          <Plus className={isMobile ? 'h-4 w-4' : 'h-4 w-4'} />
                         </Button>
                       </div>
                     </div>
@@ -487,8 +509,16 @@ const Index = () => {
               })}
             </div>
           )}
-          <div className="text-center mt-12">
-            <Link to="/shop"><Button variant="outline" className="border-primary/30 text-foreground hover:bg-primary hover:text-primary-foreground px-8 py-5 text-xs tracking-[0.2em] uppercase rounded-sm">View All Products</Button></Link>
+          <div className={`text-center ${isMobile ? 'mt-6' : 'mt-12'}`}>
+            <Link to="/shop">
+              <Button 
+                variant="outline" 
+                className={`border-primary/30 text-foreground hover:bg-primary hover:text-primary-foreground ${isMobile ? 'px-6 py-3 text-xs' : 'px-8 py-5 text-xs'} tracking-[0.15em] uppercase rounded-full`}
+              >
+                View All Products
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
