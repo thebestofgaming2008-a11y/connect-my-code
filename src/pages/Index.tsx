@@ -191,31 +191,34 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left — Text */}
             <div className="text-center lg:text-left">
-              {/* Benefit-focused headline (proven to convert better than vague statements) */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] tracking-tight font-philosopher">
-                {s.title || 'Authentic Islamic Books from Trusted Publishers'}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-5 leading-[1.15] text-primary font-philosopher">
+                Build Your Islamic Library<br />
+                <span className="text-accent">One Book at a Time</span>
               </h1>
-              
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                {s.subtitle || 'Classical texts to contemporary works. Verified sources. India-wide delivery.'}
+              <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                {s.subtitle || 'Curated collection of authentic Islamic books — from classical scholars to contemporary works. Shipped across India.'}
               </p>
-              
-              <div className="mb-8">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
                 <Link to={c.cta_link || '/shop'}>
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all">
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
                     {c.cta_text || 'Browse Collection'}
                   </Button>
                 </Link>
+                {c.cta2_text && (
+                  <Link to={c.cta2_link || '/shop?search=bundle'}>
+                    <Button size="lg" variant="outline" className="px-8 py-6 text-sm font-medium rounded-lg border-2">{c.cta2_text}</Button>
+                  </Link>
+                )}
               </div>
-              
               {trustItems.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
                   {trustItems.map((item, i) => {
                     const Icon = ICON_MAP[item.icon] || Shield;
+                    const bgColor = item.color?.includes('green') ? 'bg-green-50 border-green-200/60' : item.color?.includes('blue') ? 'bg-blue-50 border-blue-200/60' : item.color?.includes('yellow') ? 'bg-amber-50 border-amber-200/60' : 'bg-primary/5 border-primary/10';
                     return (
-                      <div key={i} className="flex items-center gap-2 text-muted-foreground">
-                        <Icon className="h-4 w-4" />
-                        <span className="font-medium">{item.text}</span>
+                      <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${bgColor}`}>
+                        <Icon className={`h-4 w-4 ${item.color || 'text-primary'}`} />
+                        <span className="text-foreground/80 font-medium text-xs">{item.text}</span>
                       </div>
                     );
                   })}
