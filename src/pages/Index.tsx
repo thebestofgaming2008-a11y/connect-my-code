@@ -526,11 +526,11 @@ const Index = () => {
   };
 
   const renderCategoriesCarousel = (s: SiteSection) => (
-    <section key={s.id} className="py-12 bg-secondary/30 overflow-hidden">
-      <div className="container mx-auto mb-8">
+    <section key={s.id} className={`${isMobile ? 'py-6' : 'py-12'} bg-secondary/30 overflow-hidden`}>
+      <div className={`container mx-auto ${isMobile ? 'mb-4' : 'mb-8'}`}>
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl mb-3 font-philosopher">{s.title || 'Browse by Genre'}</h2>
-          <p className="text-muted-foreground text-sm">{s.subtitle || 'Explore our collection by category'}</p>
+          <h2 className={`${isMobile ? 'text-xl' : 'text-3xl md:text-4xl'} mb-2 font-philosopher`}>{s.title || 'Browse by Genre'}</h2>
+          <p className="text-muted-foreground text-xs sm:text-sm">{s.subtitle || 'Explore our collection by category'}</p>
         </div>
       </div>
       <div className="relative">
@@ -550,7 +550,7 @@ const Index = () => {
             <Link
               key={index}
               to={`/shop?category=${cat.slug}`}
-              className="flex-shrink-0 mx-3 px-8 py-4 bg-card border border-border/50 rounded-sm hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 text-sm tracking-wide whitespace-nowrap"
+              className={`flex-shrink-0 mx-2 ${isMobile ? 'px-5 py-3 text-xs' : 'px-8 py-4 text-sm'} bg-card border border-border/50 rounded-full hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 tracking-wide whitespace-nowrap`}
               onClick={(e) => { if (dragDistance.current > 5) e.preventDefault(); }}
               draggable={false}
             >
