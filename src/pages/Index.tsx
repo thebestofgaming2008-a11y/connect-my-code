@@ -184,75 +184,142 @@ const Index = () => {
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
     return (
-      <section key={s.id} className="py-16 md:py-24 lg:py-32 px-4 bg-gradient-to-br from-background via-background to-secondary/20">
-        <div className="container mx-auto max-w-7xl">
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
-            {/* Left — Minimal, conversion-focused content */}
-            <div className="text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-              {/* Ultra-clear headline - evidence: 99ways 110% increase with clarity */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
-                <span className="text-foreground">{s.title || 'Authentic Islamic Books'}</span>
+      <section key={s.id} className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden bg-gradient-to-br from-background via-secondary/5 to-accent/5">
+        {/* Subtle Islamic pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ 
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 15h16l-13 9 5 16-13-9-13 9 5-16-13-9h16z' fill='%23000' fill-opacity='1'/%3E%3C/svg%3E")`,
+          backgroundSize: '60px 60px'
+        }} />
+        
+        <div className="container mx-auto max-w-7xl relative">
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
+            {/* Left - Value proposition */}
+            <div className="text-center lg:text-left space-y-6">
+              {/* Tagline */}
+              <p className="text-sm md:text-base font-medium text-accent tracking-wide uppercase">
+                Authentic Islamic Literature
+              </p>
+              
+              {/* Main headline */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight">
+                <span className="text-foreground block mb-2">
+                  {s.title || 'Authentic Islamic Books'}
+                </span>
+                <span className="text-muted-foreground text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal block">
+                  from Trusted Publishers
+                </span>
               </h1>
 
-              {/* Single benefit line - evidence: Carrot "less is more" 45% increase */}
-              <p className="text-xl md:text-2xl text-muted-foreground mb-12 leading-relaxed">
-                {s.subtitle || 'Verified publishers. No unauthorized prints.'}
+              {/* Benefit statement */}
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                {s.subtitle || 'Every book sourced from verified publishers. Classical texts to contemporary works, delivered across India.'}
               </p>
 
-              {/* Prominent CTA - evidence: Carrot form prominence increased conversions 22-47% */}
-              <Link to={c.cta_link || '/shop'} className="inline-block">
-                <Button 
-                  size="lg" 
-                  className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-12 h-16 text-lg font-bold rounded-xl shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300"
-                >
-                  {c.cta_text || 'Browse Books'}
-                </Button>
-              </Link>
+              {/* CTA + guarantees */}
+              <div className="space-y-6 pt-4">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <Link to={c.cta_link || '/shop'}>
+                    <Button 
+                      size="lg" 
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 h-14 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
+                    >
+                      {c.cta_text || 'Browse Collection'}
+                    </Button>
+                  </Link>
+                  {c.cta2_text && (
+                    <Link to={c.cta2_link || '/contact'}>
+                      <Button size="lg" variant="outline" className="px-10 h-14 text-base font-semibold rounded-lg border-2">
+                        {c.cta2_text}
+                      </Button>
+                    </Link>
+                  )}
+                </div>
 
-              {/* Minimal trust signals - evidence: Carrot avoid clutter in hero */}
-              <p className="mt-6 text-sm text-muted-foreground">
-                Free shipping ₹2000+ • India-wide delivery
-              </p>
+                {/* Trust badges */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
+                      <Shield className="h-5 w-5 text-green-700" />
+                    </div>
+                    <span className="text-foreground/90 font-medium">100% Authentic</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+                      <Package className="h-5 w-5 text-blue-700" />
+                    </div>
+                    <span className="text-foreground/90 font-medium">Free Shipping ₹2000+</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-100">
+                      <Truck className="h-5 w-5 text-orange-700" />
+                    </div>
+                    <span className="text-foreground/90 font-medium">India-wide Delivery</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right — Product showcase (minimal distraction) */}
+            {/* Right - Product showcase */}
             {heroProducts.length >= 3 && (
               <div
-                className="hidden lg:flex items-end justify-center relative h-[450px]"
+                className="relative h-[400px] md:h-[500px] lg:h-[550px] hidden md:block"
                 onMouseLeave={() => setActiveHeroBook(null)}
               >
-                {heroProducts.map((product, i) => {
-                  const isActive = activeHeroBook === i;
-                  const rotation = i === 0 ? -6 : i === 2 ? 6 : 0;
-                  const baseX = i === 0 ? -80 : i === 2 ? 80 : 0;
-                  const hoverX = i === 0 ? -30 : i === 2 ? 30 : 0;
-                  const hoverY = i === 1 ? -15 : -8;
-                  const zBase = i === 1 ? 20 : 10;
-                  return (
-                    <div
-                      key={product.id}
-                      className="absolute w-48 cursor-pointer"
-                      style={{
-                        left: '50%',
-                        bottom: 40,
-                        zIndex: zBase,
-                        willChange: 'transform',
-                        transition: 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                        transform: `translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) translateY(${isActive ? hoverY : 0}px) rotate(${rotation}deg) scale(${isActive ? 1.05 : 1})`,
-                      }}
-                      onMouseEnter={() => setActiveHeroBook(i)}
-                      onClick={() => setActiveHeroBook(isActive ? null : i)}
-                    >
-                      <Link to={`/product/${product.id}`}>
-                        <img
-                          src={product.images![0]}
-                          alt={product.name}
-                          className={`w-full aspect-[3/4] object-cover rounded-lg transition-shadow duration-500 ${isActive ? 'shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : 'shadow-xl'}`}
-                        />
-                      </Link>
-                    </div>
-                  );
-                })}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {heroProducts.map((product, i) => {
+                    const isActive = activeHeroBook === i;
+                    const rotation = i === 0 ? -8 : i === 2 ? 8 : 0;
+                    const baseX = i === 0 ? -110 : i === 2 ? 110 : 0;
+                    const hoverX = i === 0 ? -40 : i === 2 ? 40 : 0;
+                    const hoverY = i === 1 ? -25 : -12;
+                    const zBase = i === 1 ? 30 : 10;
+                    const scale = i === 1 ? 1.15 : 1;
+                    
+                    return (
+                      <div
+                        key={product.id}
+                        className="absolute w-52 lg:w-60 cursor-pointer"
+                        style={{
+                          left: '50%',
+                          top: '50%',
+                          zIndex: isActive ? 50 : zBase,
+                          transform: `
+                            translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) 
+                            translateY(calc(-50% + ${isActive ? hoverY : 0}px)) 
+                            rotate(${rotation}deg) 
+                            scale(${scale * (isActive ? 1.08 : 1)})
+                          `,
+                          transition: 'all 600ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        }}
+                        onMouseEnter={() => setActiveHeroBook(i)}
+                        onClick={() => setActiveHeroBook(isActive ? null : i)}
+                      >
+                        <Link to={`/product/${product.id}`}>
+                          <div className={`relative rounded-xl overflow-hidden transition-all duration-600 ${
+                            isActive 
+                              ? 'shadow-[0_30px_70px_rgba(0,0,0,0.35)]' 
+                              : i === 1 
+                                ? 'shadow-[0_20px_50px_rgba(0,0,0,0.25)]'
+                                : 'shadow-[0_15px_35px_rgba(0,0,0,0.18)]'
+                          }`}>
+                            <img
+                              src={product.images![0]}
+                              alt={product.name}
+                              className="w-full aspect-[3/4] object-cover"
+                            />
+                          </div>
+                        </Link>
+                        {isActive && (
+                          <div className="absolute -bottom-14 left-0 right-0 text-center">
+                            <p className="text-sm font-semibold text-foreground bg-card/95 backdrop-blur-md rounded-lg px-4 py-2.5 inline-block shadow-xl border border-border/50">
+                              {product.name}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>
