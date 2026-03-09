@@ -176,6 +176,8 @@ const Index = () => {
 
   const renderHero = (s: SiteSection) => {
     const c = s.content || {};
+    const trustSection = sections.find(sec => sec.section_key === 'trust_indicators');
+    const trustItems = (trustSection?.content?.items || c.trust_items || []) as Array<{ icon: string; text: string; color?: string }>;
 
     // Pick 3 products for the hero visual — use admin-selected IDs if set, else auto-pick
     const heroProductIds: string[] = c.hero_product_ids || [];
@@ -184,142 +186,87 @@ const Index = () => {
       : products.filter(p => p.images?.[0] && !p.images[0].includes('placeholder')).slice(0, 3);
 
     return (
-      <section key={s.id} className="relative py-16 md:py-24 lg:py-32 px-4 overflow-hidden bg-gradient-to-br from-background via-secondary/5 to-accent/5">
-        {/* Subtle Islamic pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l5 15h16l-13 9 5 16-13-9-13 9 5-16-13-9h16z' fill='%23000' fill-opacity='1'/%3E%3C/svg%3E")`,
-          backgroundSize: '60px 60px'
-        }} />
-        
-        <div className="container mx-auto max-w-7xl relative">
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-16 items-center">
-            {/* Left - Value proposition */}
-            <div className="text-center lg:text-left space-y-6">
-              {/* Tagline */}
-              <p className="text-sm md:text-base font-medium text-accent tracking-wide uppercase">
-                Authentic Islamic Literature
-              </p>
-              
-              {/* Main headline */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight">
-                <span className="text-foreground block mb-2">
-                  {s.title || 'Authentic Islamic Books'}
-                </span>
-                <span className="text-muted-foreground text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal block">
-                  from Trusted Publishers
-                </span>
+      <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Left — Text */}
+            <div className="text-center lg:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-5 leading-[1.15] text-primary font-philosopher">
+                Build Your Islamic Library<br />
+                <span className="text-accent">One Book at a Time</span>
               </h1>
-
-              {/* Benefit statement */}
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                {s.subtitle || 'Every book sourced from verified publishers. Classical texts to contemporary works, delivered across India.'}
+              <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                {s.subtitle || 'Curated collection of authentic Islamic books — from classical scholars to contemporary works. Shipped across India.'}
               </p>
-
-              {/* CTA + guarantees */}
-              <div className="space-y-6 pt-4">
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link to={c.cta_link || '/shop'}>
-                    <Button 
-                      size="lg" 
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 h-14 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all"
-                    >
-                      {c.cta_text || 'Browse Collection'}
-                    </Button>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
+                <Link to={c.cta_link || '/shop'}>
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    {c.cta_text || 'Browse Collection'}
+                  </Button>
+                </Link>
+                {c.cta2_text && (
+                  <Link to={c.cta2_link || '/shop?search=bundle'}>
+                    <Button size="lg" variant="outline" className="px-8 py-6 text-sm font-medium rounded-lg border-2">{c.cta2_text}</Button>
                   </Link>
-                  {c.cta2_text && (
-                    <Link to={c.cta2_link || '/contact'}>
-                      <Button size="lg" variant="outline" className="px-10 h-14 text-base font-semibold rounded-lg border-2">
-                        {c.cta2_text}
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-
-                {/* Trust badges */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
-                      <Shield className="h-5 w-5 text-green-700" />
-                    </div>
-                    <span className="text-foreground/90 font-medium">100% Authentic</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
-                      <Package className="h-5 w-5 text-blue-700" />
-                    </div>
-                    <span className="text-foreground/90 font-medium">Free Shipping ₹2000+</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-100">
-                      <Truck className="h-5 w-5 text-orange-700" />
-                    </div>
-                    <span className="text-foreground/90 font-medium">India-wide Delivery</span>
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
-
-            {/* Right - Product showcase */}
-            {heroProducts.length >= 3 && (
-              <div
-                className="relative h-[400px] md:h-[500px] lg:h-[550px] hidden md:block"
-                onMouseLeave={() => setActiveHeroBook(null)}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {heroProducts.map((product, i) => {
-                    const isActive = activeHeroBook === i;
-                    const rotation = i === 0 ? -8 : i === 2 ? 8 : 0;
-                    const baseX = i === 0 ? -110 : i === 2 ? 110 : 0;
-                    const hoverX = i === 0 ? -40 : i === 2 ? 40 : 0;
-                    const hoverY = i === 1 ? -25 : -12;
-                    const zBase = i === 1 ? 30 : 10;
-                    const scale = i === 1 ? 1.15 : 1;
-                    
+              {trustItems.length > 0 && (
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
+                  {trustItems.map((item, i) => {
+                    const Icon = ICON_MAP[item.icon] || Shield;
+                    const bgColor = item.color?.includes('green') ? 'bg-green-50 border-green-200/60' : item.color?.includes('blue') ? 'bg-blue-50 border-blue-200/60' : item.color?.includes('yellow') ? 'bg-amber-50 border-amber-200/60' : 'bg-primary/5 border-primary/10';
                     return (
-                      <div
-                        key={product.id}
-                        className="absolute w-52 lg:w-60 cursor-pointer"
-                        style={{
-                          left: '50%',
-                          top: '50%',
-                          zIndex: isActive ? 50 : zBase,
-                          transform: `
-                            translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) 
-                            translateY(calc(-50% + ${isActive ? hoverY : 0}px)) 
-                            rotate(${rotation}deg) 
-                            scale(${scale * (isActive ? 1.08 : 1)})
-                          `,
-                          transition: 'all 600ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-                        }}
-                        onMouseEnter={() => setActiveHeroBook(i)}
-                        onClick={() => setActiveHeroBook(isActive ? null : i)}
-                      >
-                        <Link to={`/product/${product.id}`}>
-                          <div className={`relative rounded-xl overflow-hidden transition-all duration-600 ${
-                            isActive 
-                              ? 'shadow-[0_30px_70px_rgba(0,0,0,0.35)]' 
-                              : i === 1 
-                                ? 'shadow-[0_20px_50px_rgba(0,0,0,0.25)]'
-                                : 'shadow-[0_15px_35px_rgba(0,0,0,0.18)]'
-                          }`}>
-                            <img
-                              src={product.images![0]}
-                              alt={product.name}
-                              className="w-full aspect-[3/4] object-cover"
-                            />
-                          </div>
-                        </Link>
-                        {isActive && (
-                          <div className="absolute -bottom-14 left-0 right-0 text-center">
-                            <p className="text-sm font-semibold text-foreground bg-card/95 backdrop-blur-md rounded-lg px-4 py-2.5 inline-block shadow-xl border border-border/50">
-                              {product.name}
-                            </p>
-                          </div>
-                        )}
+                      <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${bgColor}`}>
+                        <Icon className={`h-4 w-4 ${item.color || 'text-primary'}`} />
+                        <span className="text-foreground/80 font-medium text-xs">{item.text}</span>
                       </div>
                     );
                   })}
                 </div>
+              )}
+            </div>
+
+            {/* Right — Stacked books, hover slides outward */}
+            {heroProducts.length >= 3 && (
+              <div
+                className="hidden md:flex items-end justify-center lg:justify-end pb-16 relative h-[380px] lg:h-[440px]"
+                onMouseLeave={() => setActiveHeroBook(null)}
+              >
+                {heroProducts.map((product, i) => {
+                  const isActive = activeHeroBook === i;
+                  const rotation = i === 0 ? -8 : i === 2 ? 8 : 0;
+                  const baseX = i === 0 ? -90 : i === 2 ? 90 : 0;
+                  const hoverX = i === 0 ? -35 : i === 2 ? 35 : 0;
+                  const hoverY = i === 1 ? -20 : -10;
+                  const zBase = i === 1 ? 20 : 10;
+                  return (
+                    <div
+                      key={product.id}
+                      className="absolute w-40 lg:w-52 cursor-pointer"
+                      style={{
+                        left: '50%',
+                        bottom: 40,
+                        zIndex: zBase,
+                        willChange: 'transform',
+                        transition: 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 500ms ease',
+                        transform: `translateX(calc(-50% + ${baseX + (isActive ? hoverX : 0)}px)) translateY(${isActive ? hoverY : 0}px) rotate(${rotation}deg) scale(${isActive ? 1.06 : 1})`,
+                      }}
+                      onMouseEnter={() => setActiveHeroBook(i)}
+                      onClick={() => setActiveHeroBook(isActive ? null : i)}
+                    >
+                      <Link to={`/product/${product.id}`}>
+                        <img
+                          src={product.images![0]}
+                          alt={product.name}
+                          className={`w-full aspect-[3/4] object-cover rounded-xl transition-shadow duration-500 ${isActive ? 'shadow-[0_25px_60px_rgba(0,0,0,0.25)]' : 'shadow-lg'}`}
+                        />
+                      </Link>
+                      <div className={`absolute -bottom-10 left-0 right-0 text-center transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                        <p className="text-sm font-medium text-foreground bg-background/90 backdrop-blur-sm rounded-md px-3 py-1.5 inline-block shadow-lg">{product.name}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
