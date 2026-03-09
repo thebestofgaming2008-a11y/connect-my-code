@@ -1,56 +1,92 @@
 
 
-## Final Site Polish Plan
+# Pro-Level Review System Upgrade
 
-### 1. InfinityApp.in Payment Gateway
+## What We're Building
+Amazon/Shopify-style review system with:
+1. **Rating histogram** — Visual bar chart showing star distribution (5-star: 70%, 4-star: 20%, etc.)
+2. **Average rating summary** — Large number with total review count
+3. **Sort options** — Newest, Highest Rated, Lowest Rated, Most Helpful
+4. **Helpful voting** — "Was this helpful?" Yes/No buttons on each review
 
-I couldn't find much public info on infinityapp.in — it's a relatively new/small Indian payment aggregator. For your use case (personal PAN, international payments), here's the reality:
-- **Risk**: Small gateways can disappear, freeze funds, or have poor dispute resolution
-- **Recommendation**: Stick with Razorpay for domestic INR + add PayPal for international. PayPal is battle-tested and works with personal accounts
+## Database Support
+Good news: The `reviews` table already has `helpful_count` and `not_helpful_count` columns — we just need to use them.
 
-### 2. Review System Upgrade — Pro-Level
+---
 
-Current state: Basic star rating + text review on product pages. The `/reviews` page only shows Instagram screenshots.
+## Implementation
 
-**Upgrade to Amazon/Shopify-style system:**
-- **Rating summary bar** at top of reviews section: average rating, star distribution histogram (5-star: 70%, 4-star: 20%, etc.)
-- **Sort reviews** by newest, highest, lowest, most helpful
-- **"Was this helpful?" buttons** on each review (like/dislike count)
-- **Review stats card** showing total reviews, average, and breakdown
-- **Guest-friendly**: Show reviews without login, only require login to write
-- **Review highlights**: Pull the most helpful positive and critical review to the top
+### 1. Update `src/hooks/useReviews.ts`
+- Update `Review` interface to include `helpful_count`, `not_helpful_count`
+- Add `useReviewStats(productId)` hook that computes:
+  - Average rating
+  - Total count
+  - Star distribution array `[{stars: 5, count: 12, percent: 40}, ...]`
+- Add `useVoteReview()` mutation to increment helpful/not_helpful counts
 
-Files: `src/pages/ProductDetail.tsx` (both mobile + desktop review sections), `src/hooks/useReviews.ts`
+### 2. Create `src/components/reviews/ReviewSummary.tsx`
+New component showing:
+- Large average rating (e.g., "4.5 out of 5")
+- Total reviews count
+- Horizontal bar histogram for each star (5→1)
+- Each bar shows percentage with count
 
-### 3. Product Data Audit & Fixes
+### 3. Create `src/components/reviews/ReviewCard.tsx`
+Extracted review card with:
+- Star rating, author, date, verified badge
+- Title and content
+- "Was this helpful?" section with thumbs up/down buttons
+- Shows helpful count if > 0
 
-After reviewing all ~80+ products in `src/data/products.ts`, the data is generally solid. Key fixes needed:
+### 4. Create `src/components/reviews/ReviewSort.tsx`
+Simple dropdown/select for sorting:
+- Newest (default)
+- Highest Rated
+- Lowest Rated  
+- Most Helpful
 
-- **Missing publishers** on several books: `kitab-tawhid-sadi-commentary`, `book-of-tawheed-fawzan`, `historical-marvels-quran`, `sublime-beauty-prophet`, `honorable-wives-prophet`, `important-lessons-muslim-women`, `great-women-of-islam`, several purification books, etc.
-- **Missing authors** on: `concise-collection-creed-tawheed`, `historical-marvels-quran`, `quran-english-translation`, `golden-supplications-children` (has author but some others don't), `evils-of-music`, `they-are-enemy-beware`, `questions-jinn`, combo collections
-- **Commentary attribution**: Books like `kitab-tawhid-uthaymeen-commentary` should note the commentator (Uthaymeen) more clearly — author field says "Muhammad ibn Abdul Wahhab" (original author) but the commentary is by Uthaymeen
-- **Khadija Niqab**: Has empty images array — needs placeholder or actual image
-- **Stories of the Prophets (Urdu)**: Listed in urdu category but tags say "arabic" — should say "urdu stories"
+### 5. Update `src/pages/ProductDetail.tsx`
+- Import new components
+- Replace inline review rendering with `ReviewSummary` + sorted `ReviewCard` list
+- Add sort state and logic
+- Update both mobile and desktop review sections
 
-### 4. Site-Wide Polish
+---
 
-Quick wins to make everything feel professional:
+## Files to Create/Edit
 
-- **Product pages**: Add `pages` and `binding` info where missing (many books don't show page count)
-- **Empty state improvements**: Better "no products found" messaging in shop
-- **Review section on /reviews page**: Add a call-to-action to leave reviews on products they've purchased
-- **Footer**: Verify all links work, ensure WhatsApp number is correct
-- **SEO**: All product descriptions already have good SEO content
+| File | Action |
+|------|--------|
+| `src/hooks/useReviews.ts` | Add stats hook, vote mutation, update interface |
+| `src/components/reviews/ReviewSummary.tsx` | Create — histogram + average |
+| `src/components/reviews/ReviewCard.tsx` | Create — review with voting |
+| `src/components/reviews/ReviewSort.tsx` | Create — sort dropdown |
+| `src/pages/ProductDetail.tsx` | Update both mobile + desktop review sections |
 
-### Implementation Priority (single message)
+---
 
-1. **Review system upgrade** — Add rating summary histogram + sort + "helpful" voting to ProductDetail (biggest visual impact)
-2. **Product data fixes** — Fix missing publishers, authors, commentator attribution, empty images, wrong tags
-3. **Minor polish** — Review page CTA, niqab placeholder
+## UI Preview
 
-### Files to Edit
-1. `src/pages/ProductDetail.tsx` — Pro review system with histogram + sort
-2. `src/hooks/useReviews.ts` — Add review stats aggregation helper
-3. `src/data/products.ts` — Fix ~15-20 products with missing/incorrect metadata
-4. `src/pages/Reviews.tsx` — Add CTA to review purchased products
+```text
+┌─────────────────────────────────────┐
+│  ★ 4.5 out of 5                     │
+│  Based on 24 reviews                │
+│                                     │
+│  5 ★ ████████████████░░░  70% (17)  │
+│  4 ★ ████████░░░░░░░░░░░  20%  (5)  │
+│  3 ★ ██░░░░░░░░░░░░░░░░░   4%  (1)  │
+│  2 ★ ░░░░░░░░░░░░░░░░░░░   0%  (0)  │
+│  1 ★ ██░░░░░░░░░░░░░░░░░   4%  (1)  │
+└─────────────────────────────────────┘
+
+Sort by: [Newest ▼]
+
+┌─────────────────────────────────────┐
+│ Ahmed K.  ★★★★★  Verified Purchase  │
+│ "Excellent quality!"                │
+│ Great book, authentic content...    │
+│                                     │
+│ Was this helpful?  👍 12  👎 1      │
+└─────────────────────────────────────┘
+```
 
