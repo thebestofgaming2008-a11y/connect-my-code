@@ -224,18 +224,15 @@ const Index = () => {
               From Aqeedah to Seerah — curated classics shipped across India
             </p>
 
-            {/* Trust badges - horizontal scroll for mobile */}
+            {/* Trust badges - simple, uniform pills */}
             {trustItems.length > 0 && (
-              <div className="flex items-center justify-center gap-2 mb-5 flex-wrap">
-                {trustItems.slice(0, 3).map((item, i) => {
-                  const Icon = ICON_MAP[item.icon] || Shield;
-                  return (
-                    <div key={i} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/60 text-xs">
-                      <Icon className={`h-3.5 w-3.5 ${item.color || 'text-primary'}`} />
-                      <span className="text-foreground/80 font-medium">{item.text}</span>
-                    </div>
-                  );
-                })}
+              <div className="flex items-center justify-center gap-1.5 mb-5 flex-wrap">
+                {trustItems.slice(0, 3).map((item, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-border/60 bg-card text-xs text-muted-foreground">
+                    <CheckCircle className="h-3 w-3 text-primary" />
+                    {item.text}
+                  </span>
+                ))}
               </div>
             )}
 
