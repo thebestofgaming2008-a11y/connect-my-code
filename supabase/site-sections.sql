@@ -40,8 +40,8 @@ CREATE POLICY "Admin can delete sections" ON site_sections
 -- =============== SEED DEFAULT HOMEPAGE SECTIONS ===============
 INSERT INTO site_sections (page, section_key, title, subtitle, content, sort_order, is_visible) VALUES
 (
-  'home', 'hero', 'Authentic Islamic Books', 'Verified publishers. No unauthorized prints.',
-  '{"cta_text":"Browse Books","cta_link":"/shop"}'::jsonb,
+  'home', 'hero', 'Authentic Islamic Books', 'Every book sourced from verified publishers. Classical texts to contemporary works, delivered across India.',
+  '{"cta_text":"Browse Collection","cta_link":"/shop"}'::jsonb,
   0, true
 ),
 (
