@@ -10,7 +10,10 @@ import { useProduct, useProducts, useVariantProducts } from "@/hooks/useProducts
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
 import { useCart } from "@/contexts/CartContext";
 import { useIsInWishlist, useToggleWishlistItem } from "@/hooks/useWishlist";
-import { useProductReviews, useCanReviewProduct, useCreateReview } from "@/hooks/useReviews";
+import { useProductReviews, useCanReviewProduct, useCreateReview, useReviewStats, sortReviews, type ReviewSortOption } from "@/hooks/useReviews";
+import ReviewSummary from "@/components/reviews/ReviewSummary";
+import ReviewCard from "@/components/reviews/ReviewCard";
+import ReviewSort from "@/components/reviews/ReviewSort";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/layout/Header";
