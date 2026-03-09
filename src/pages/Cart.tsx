@@ -82,7 +82,7 @@ const Cart = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      <main className="flex-1 container px-4 py-8">
+      <main className="flex-1 container px-4 py-6 pb-32 lg:pb-8">
         <Link to="/shop">
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
