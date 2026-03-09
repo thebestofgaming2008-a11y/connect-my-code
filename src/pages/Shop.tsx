@@ -88,6 +88,9 @@ const Shop = () => {
   const { data: categories = [] } = useCategories(true);
   const { formatPrice, currency, exchangeRates, currencySymbol } = useCurrencyContext();
 
+  // Dynamic SEO based on current filters
+  const seoMeta = useMemo(() => getCategorySEO(selectedCategory, searchQuery, categories), [selectedCategory, searchQuery, categories]);
+
   const priceManuallySet = useRef(false);
 
   const maxPrice = useMemo(() => {
