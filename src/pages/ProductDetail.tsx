@@ -450,31 +450,22 @@ const ProductDetail = () => {
 
               {/* Reviews */}
               <MobileCollapsible title={`Reviews (${reviews.length})`}>
+                {reviews.length > 0 && (
+                  <div className="mb-3">
+                    <ReviewSummary stats={reviewStats} compact />
+                  </div>
+                )}
+                {reviews.length > 1 && (
+                  <div className="mb-3">
+                    <ReviewSort value={reviewSort} onChange={setReviewSort} total={reviews.length} />
+                  </div>
+                )}
                 {reviews.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">No reviews yet.</p>
+                  <p className="text-sm text-muted-foreground text-center py-4">No reviews yet. Be the first!</p>
                 ) : (
                   <div className="space-y-3">
-                    {reviews.map((review) => (
-                      <div key={review.id} className="border-b border-border/30 pb-3 last:border-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-semibold">
-                            {review.user?.full_name || review.user?.email?.split('@')[0] || 'Anonymous'}
-                          </span>
-                          <span className="text-[10px] text-muted-foreground">
-                            {new Date(review.created_at).toLocaleDateString()}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-0.5 mb-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`h-3 w-3 ${i < review.rating ? 'fill-primary text-primary' : 'text-muted-foreground'}`} />
-                          ))}
-                          {review.is_verified_purchase && (
-                            <Badge variant="secondary" className="text-[9px] ml-1 h-4">Verified</Badge>
-                          )}
-                        </div>
-                        {review.title && <p className="text-xs font-medium mb-0.5">{review.title}</p>}
-                        {review.content && <p className="text-xs text-muted-foreground leading-relaxed">{review.content}</p>}
-                      </div>
+                    {sortReviews(reviews, reviewSort).map((review) => (
+                      <ReviewCard key={review.id} review={review} compact />
                     ))}
                   </div>
                 )}
