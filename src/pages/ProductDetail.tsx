@@ -814,6 +814,18 @@ const ProductDetail = () => {
                 </TabsList>
 
                 <TabsContent value="reviews" className="mt-6">
+                  {reviews.length > 0 && (
+                    <Card className="mb-6">
+                      <CardContent className="p-6">
+                        <ReviewSummary stats={reviewStats} />
+                      </CardContent>
+                    </Card>
+                  )}
+                  {reviews.length > 1 && (
+                    <div className="mb-4">
+                      <ReviewSort value={reviewSort} onChange={setReviewSort} total={reviews.length} />
+                    </div>
+                  )}
                   {reviews.length === 0 ? (
                     <Card>
                       <CardContent className="py-12 text-center">
@@ -823,33 +835,8 @@ const ProductDetail = () => {
                     </Card>
                   ) : (
                     <div className="space-y-4">
-                      {reviews.map((review) => (
-                        <Card key={review.id}>
-                          <CardContent className="p-6">
-                            <div className="flex items-start justify-between mb-3">
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="font-semibold">
-                                    {review.user?.full_name || review.user?.email?.split('@')[0] || 'Anonymous'}
-                                  </span>
-                                  {review.is_verified_purchase && (
-                                    <Badge variant="secondary" className="text-xs">Verified Purchase</Badge>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  {[...Array(5)].map((_, i) => (
-                                    <Star key={i} className={`h-4 w-4 ${i < review.rating ? 'fill-primary text-primary' : 'text-muted-foreground'}`} />
-                                  ))}
-                                </div>
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                {new Date(review.created_at).toLocaleDateString()}
-                              </span>
-                            </div>
-                            {review.title && <h4 className="font-semibold mb-2">{review.title}</h4>}
-                            {review.content && <p className="text-sm text-muted-foreground leading-relaxed">{review.content}</p>}
-                          </CardContent>
-                        </Card>
+                      {sortReviews(reviews, reviewSort).map((review) => (
+                        <ReviewCard key={review.id} review={review} />
                       ))}
                     </div>
                   )}
