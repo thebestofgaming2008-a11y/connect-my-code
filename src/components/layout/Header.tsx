@@ -229,6 +229,9 @@ const Header = () => {
             <Link to="/shop?category=clothing" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Clothing
             </Link>
+            <Link to="/track-order" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Track Order
+            </Link>
             <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Contact
             </Link>
@@ -266,6 +269,9 @@ const Header = () => {
 
             <Link to="/shop?category=clothing" className="py-3 text-sm font-medium border-b border-border/20 hover:text-primary" onClick={closeMobile}>
               Clothing
+            </Link>
+            <Link to="/track-order" className="py-3 text-sm font-medium border-b border-border/20 hover:text-primary" onClick={closeMobile}>
+              Track Order
             </Link>
             <Link to="/contact" className="py-3 text-sm font-medium border-b border-border/20 hover:text-primary" onClick={closeMobile}>
               Contact

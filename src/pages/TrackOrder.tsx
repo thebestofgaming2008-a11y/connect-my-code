@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Package, CheckCircle, Truck, Clock, Lock } from 'lucide-react';
+import { Loader2, Package, CheckCircle, Truck, Clock } from 'lucide-react';
 import { format } from 'date-fns';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
 import { formatOrderCurrency } from '@/lib/pricing';
@@ -43,26 +41,12 @@ interface OrderItem {
 
 const TrackOrder = () => {
   useDocumentTitle('Track Order');
-  const { user, loading: authLoading } = useAuth();
   const [orderNumber, setOrderNumber] = useState('');
   const [contactInfo, setContactInfo] = useState('');
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const { toast } = useToast();
-  const navigate = useNavigate();
-
-  // Require login for order tracking (as per plan: guests must login to track orders)
-  useEffect(() => {
-    if (!authLoading && !user) {
-      toast({
-        title: 'Login Required',
-        description: 'Please login to track your orders.',
-        variant: 'destructive',
-      });
-      navigate('/auth?redirect=/track-order');
-    }
-  }, [user, authLoading, navigate, toast]);
 
   const handleTrackOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,32 +144,6 @@ const TrackOrder = () => {
     }
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md text-center p-8">
-            <Lock className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Login Required</h2>
-            <p className="text-muted-foreground mb-6">Please login to track your orders.</p>
-            <Button asChild>
-              <Link to="/auth?redirect=/track-order">Login / Sign Up</Link>
-            </Button>
-          </Card>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

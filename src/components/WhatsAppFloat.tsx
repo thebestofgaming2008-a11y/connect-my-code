@@ -2,7 +2,7 @@ import { MessageCircle } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const WHATSAPP_URL = 'https://wa.me/918491943437?text=' + encodeURIComponent('Assalamu Alaikum, I have a question about');
+const WHATSAPP_URL = 'https://wa.me/918491943437?text=' + encodeURIComponent('Assalamu Alaikum, I need help with my order or tracking.');
 
 const WhatsAppFloat = () => {
   const { pathname } = useLocation();
