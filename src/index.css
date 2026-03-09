@@ -81,6 +81,11 @@
     font-family: 'Philosopher', serif;
   }
 
+  /* Safe area for mobile sticky bar */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
   .font-philosopher {
     font-family: 'Philosopher', serif;
   }
