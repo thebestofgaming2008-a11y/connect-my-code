@@ -155,6 +155,12 @@ export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
         if (data?.rates) {
           const rates = data.rates as Record<string, number>;
           const age = Date.now() - new Date(data.fetched_at || 0).getTime();
+          
+          if (rates.INR && age >= 24 * 60 * 60 * 1000) {
+            // Trigger background update if stale, but don't block
+            supabaseAnon.functions.invoke('update-exchange-rates', { method: 'POST' }).catch(() => {});
+          }
+          
           if (rates.INR && age < 24 * 60 * 60 * 1000) {
             localStorage.setItem('exchange_rates_cache', JSON.stringify({ rates, ts: Date.now() }));
             return rates;
