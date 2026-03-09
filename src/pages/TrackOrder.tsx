@@ -43,26 +43,12 @@ interface OrderItem {
 
 const TrackOrder = () => {
   useDocumentTitle('Track Order');
-  const { user, loading: authLoading } = useAuth();
   const [orderNumber, setOrderNumber] = useState('');
   const [contactInfo, setContactInfo] = useState('');
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const { toast } = useToast();
-  const navigate = useNavigate();
-
-  // Require login for order tracking (as per plan: guests must login to track orders)
-  useEffect(() => {
-    if (!authLoading && !user) {
-      toast({
-        title: 'Login Required',
-        description: 'Please login to track your orders.',
-        variant: 'destructive',
-      });
-      navigate('/auth?redirect=/track-order');
-    }
-  }, [user, authLoading, navigate, toast]);
 
   const handleTrackOrder = async (e: React.FormEvent) => {
     e.preventDefault();
