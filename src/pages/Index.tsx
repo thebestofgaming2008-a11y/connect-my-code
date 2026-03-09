@@ -176,8 +176,6 @@ const Index = () => {
 
   const renderHero = (s: SiteSection) => {
     const c = s.content || {};
-    const trustSection = sections.find(sec => sec.section_key === 'trust_indicators');
-    const trustItems = (trustSection?.content?.items || c.trust_items || []) as Array<{ icon: string; text: string; color?: string }>;
 
     // Pick 3 products for the hero visual — use admin-selected IDs if set, else auto-pick
     const heroProductIds: string[] = c.hero_product_ids || [];
@@ -191,75 +189,42 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left — Text */}
             <div className="text-center lg:text-left">
-              {/* Urgency banner */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 bg-accent/10 border border-accent/30 rounded-full text-xs font-medium text-accent">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>New arrivals weekly • Limited stock available</span>
-              </div>
-              
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-4 leading-[1.15] text-primary font-philosopher">
-                Authentic Islamic Books<br />
-                <span className="text-accent">from Trusted Publishers</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] text-primary font-philosopher">
+                {s.title || 'Authentic Islamic Books from Trusted Publishers'}
               </h1>
-              
-              {/* Social proof */}
-              <div className="flex items-center justify-center lg:justify-start gap-2 mb-5 text-sm text-muted-foreground">
-                <div className="flex -space-x-2">
-                  <div className="w-7 h-7 rounded-full bg-accent/20 border-2 border-background flex items-center justify-center">
-                    <Users className="h-3.5 w-3.5 text-accent" />
-                  </div>
-                  <div className="w-7 h-7 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
-                    <CheckCircle className="h-3.5 w-3.5 text-primary" />
-                  </div>
-                  <div className="w-7 h-7 rounded-full bg-green-500/20 border-2 border-background flex items-center justify-center">
-                    <Star className="h-3.5 w-3.5 text-green-600 fill-green-600" />
-                  </div>
-                </div>
-                <span className="font-medium">Trusted by <span className="text-foreground font-semibold">500+</span> customers across India</span>
-              </div>
 
-              <p className="text-base md:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                {s.subtitle || 'Classical texts to contemporary works. Every book sourced from verified publishers. Fast shipping across India.'}
+              <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                {s.subtitle || 'Every book verified and sourced directly from authorized publishers. No unauthorized prints, no compromises on authenticity.'}
               </p>
-              
-              {/* Customer quote */}
-              <div className="mb-7 px-4 py-3 bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg max-w-xl mx-auto lg:mx-0">
-                <div className="flex items-start gap-2">
-                  <Quote className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-foreground/90 italic leading-relaxed">"The quality is amazing — print, packaging, everything. May Allah put barakah in your business."</p>
-                    <p className="text-xs text-muted-foreground mt-1.5">— Verified Customer</p>
-                  </div>
-                </div>
-              </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
                 <Link to={c.cta_link || '/shop'}>
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
-                    {c.cta_text || 'Shop Authentic Books Now'}
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 h-14 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all">
+                    {c.cta_text || 'Browse Authentic Books'}
                   </Button>
                 </Link>
                 {c.cta2_text && (
-                  <Link to={c.cta2_link || '/shop?search=bundle'}>
-                    <Button size="lg" variant="outline" className="px-8 py-6 text-sm font-medium rounded-lg border-2">{c.cta2_text}</Button>
+                  <Link to={c.cta2_link || '/contact'}>
+                    <Button size="lg" variant="outline" className="px-8 h-14 text-base font-semibold rounded-lg border-2 hover:bg-accent/5">{c.cta2_text}</Button>
                   </Link>
                 )}
               </div>
               
-              {trustItems.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
-                  {trustItems.map((item, i) => {
-                    const Icon = ICON_MAP[item.icon] || Shield;
-                    const bgColor = item.color?.includes('green') ? 'bg-green-50 border-green-200/60' : item.color?.includes('blue') ? 'bg-blue-50 border-blue-200/60' : item.color?.includes('yellow') ? 'bg-amber-50 border-amber-200/60' : 'bg-primary/5 border-primary/10';
-                    return (
-                      <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${bgColor}`}>
-                        <Icon className={`h-4 w-4 ${item.color || 'text-primary'}`} />
-                        <span className="text-foreground/80 font-medium text-xs">{item.text}</span>
-                      </div>
-                    );
-                  })}
+              {/* Real guarantees below CTA */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm">
+                <div className="flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-green-600" />
+                  <span className="text-foreground/80 font-medium">100% Authentic</span>
                 </div>
-              )}
+                <div className="flex items-center gap-2">
+                  <Package className="h-5 w-5 text-blue-600" />
+                  <span className="text-foreground/80 font-medium">Free Shipping ₹2000+</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Truck className="h-5 w-5 text-orange-600" />
+                  <span className="text-foreground/80 font-medium">India-wide Delivery</span>
+                </div>
+              </div>
             </div>
 
             {/* Right — Stacked books, hover slides outward */}
