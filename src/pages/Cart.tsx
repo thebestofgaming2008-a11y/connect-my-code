@@ -119,8 +119,8 @@ const Cart = () => {
                 return (
                   <Card key={`${item.product.id}-${item.size}-${item.color}`}>
                     <CardContent className="p-6">
-                      <div className="flex gap-6">
-                        <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
+                      <div className="flex gap-4 sm:gap-6">
+                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
                           <ProductImage
                             src={item.product.images[0]}
                             alt={item.product.name}
@@ -128,53 +128,54 @@ const Cart = () => {
                           />
                         </div>
 
-                        <div className="flex-1 space-y-3">
-                          <div className="flex justify-between">
-                            <div>
+                        <div className="flex-1 flex flex-col">
+                          <div className="flex justify-between items-start">
+                            <div className="pr-2">
                               <Link to={`/product/${item.product.id}`}>
-                                <h3 className="font-semibold hover:text-primary transition-colors">
+                                <h3 className="font-semibold text-sm sm:text-base hover:text-primary transition-colors line-clamp-2">
                                   {item.product.name}
                                 </h3>
                               </Link>
                               {item.size && (
-                                <p className="text-sm text-muted-foreground">Size: {item.size}</p>
+                                <p className="text-xs sm:text-sm text-muted-foreground mt-1">Size: {item.size}</p>
                               )}
                               {item.color && (
-                                <p className="text-sm text-muted-foreground">Color: {item.color}</p>
+                                <p className="text-xs sm:text-sm text-muted-foreground">Color: {item.color}</p>
                               )}
                             </div>
                             <Button
                               variant="ghost"
                               size="icon"
+                              className="h-8 w-8 sm:h-10 sm:w-10 text-muted-foreground hover:text-destructive shrink-0 -mt-1 -mr-2 sm:mt-0 sm:mr-0"
                               onClick={() => handleRemove(item.product.id, item.product.name)}
                             >
-                              <Trash2 className="h-4 w-4 text-destructive" />
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
 
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-between mt-auto pt-4">
+                            <div className="flex items-center gap-2 sm:gap-3 bg-muted/50 rounded-md p-1">
                               <Button
-                                variant="outline"
+                                variant="ghost"
                                 size="icon"
-                                className="h-8 w-8"
+                                className="h-7 w-7 sm:h-8 sm:w-8 hover:bg-background shadow-sm"
                                 onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                               >
                                 <Minus className="h-3 w-3" />
                               </Button>
-                              <span className="text-sm font-semibold w-8 text-center">
+                              <span className="text-xs sm:text-sm font-semibold w-6 sm:w-8 text-center">
                                 {item.quantity}
                               </span>
                               <Button
-                                variant="outline"
+                                variant="ghost"
                                 size="icon"
-                                className="h-8 w-8"
+                                className="h-7 w-7 sm:h-8 sm:w-8 hover:bg-background shadow-sm"
                                 onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                               >
                                 <Plus className="h-3 w-3" />
                               </Button>
                             </div>
-                            <p className="text-lg font-bold">
+                            <p className="text-base sm:text-lg font-bold">
                               {formatAmount(itemPrice * item.quantity)}
                             </p>
                           </div>
