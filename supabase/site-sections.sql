@@ -40,13 +40,13 @@ CREATE POLICY "Admin can delete sections" ON site_sections
 -- =============== SEED DEFAULT HOMEPAGE SECTIONS ===============
 INSERT INTO site_sections (page, section_key, title, subtitle, content, sort_order, is_visible) VALUES
 (
-  'home', 'hero', 'Abu Hurayrah', 'Authentic Islamic books from trusted publishers worldwide. From classical texts to contemporary works, find your next meaningful read.',
-  '{"cta_text":"Browse Collection","cta_link":"/shop"}'::jsonb,
+  'home', 'hero', 'Authentic Islamic Books from Trusted Publishers', 'Classical texts to contemporary works. Every book sourced from verified publishers. Fast shipping across India.',
+  '{"cta_text":"Shop Authentic Books Now","cta_link":"/shop"}'::jsonb,
   0, true
 ),
 (
   'home', 'trust_indicators', NULL, NULL,
-  '{"items":[{"icon":"BadgeCheck","text":"100% Authentic","color":"text-green-600"},{"icon":"Globe","text":"Free Shipping ₹2000+","color":"text-blue-600"},{"icon":"Sparkles","text":"Trusted by Customers","color":"text-yellow-500"}]}'::jsonb,
+  '{"items":[{"icon":"BadgeCheck","text":"100% Authentic","color":"text-green-600"},{"icon":"Globe","text":"Free Shipping ₹2000+","color":"text-blue-600"},{"icon":"Sparkles","text":"500+ Happy Customers","color":"text-yellow-500"}]}'::jsonb,
   1, true
 ),
 (

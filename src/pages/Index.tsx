@@ -191,17 +191,52 @@ const Index = () => {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left — Text */}
             <div className="text-center lg:text-left">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-5 leading-[1.15] text-primary font-philosopher">
-                Build Your Islamic Library<br />
-                <span className="text-accent">One Book at a Time</span>
+              {/* Urgency banner */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 bg-accent/10 border border-accent/30 rounded-full text-xs font-medium text-accent">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>New arrivals weekly • Limited stock available</span>
+              </div>
+              
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-bold mb-4 leading-[1.15] text-primary font-philosopher">
+                Authentic Islamic Books<br />
+                <span className="text-accent">from Trusted Publishers</span>
               </h1>
-              <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                {s.subtitle || 'Curated collection of authentic Islamic books — from classical scholars to contemporary works. Shipped across India.'}
+              
+              {/* Social proof */}
+              <div className="flex items-center justify-center lg:justify-start gap-2 mb-5 text-sm text-muted-foreground">
+                <div className="flex -space-x-2">
+                  <div className="w-7 h-7 rounded-full bg-accent/20 border-2 border-background flex items-center justify-center">
+                    <Users className="h-3.5 w-3.5 text-accent" />
+                  </div>
+                  <div className="w-7 h-7 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
+                    <CheckCircle className="h-3.5 w-3.5 text-primary" />
+                  </div>
+                  <div className="w-7 h-7 rounded-full bg-green-500/20 border-2 border-background flex items-center justify-center">
+                    <Star className="h-3.5 w-3.5 text-green-600 fill-green-600" />
+                  </div>
+                </div>
+                <span className="font-medium">Trusted by <span className="text-foreground font-semibold">500+</span> customers across India</span>
+              </div>
+
+              <p className="text-base md:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                {s.subtitle || 'Classical texts to contemporary works. Every book sourced from verified publishers. Fast shipping across India.'}
               </p>
+              
+              {/* Customer quote */}
+              <div className="mb-7 px-4 py-3 bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg max-w-xl mx-auto lg:mx-0">
+                <div className="flex items-start gap-2">
+                  <Quote className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-foreground/90 italic leading-relaxed">"The quality is amazing — print, packaging, everything. May Allah put barakah in your business."</p>
+                    <p className="text-xs text-muted-foreground mt-1.5">— Verified Customer</p>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
                 <Link to={c.cta_link || '/shop'}>
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-sm font-medium rounded-lg shadow-lg hover:shadow-xl transition-all">
-                    {c.cta_text || 'Browse Collection'}
+                    {c.cta_text || 'Shop Authentic Books Now'}
                   </Button>
                 </Link>
                 {c.cta2_text && (
@@ -210,6 +245,7 @@ const Index = () => {
                   </Link>
                 )}
               </div>
+              
               {trustItems.length > 0 && (
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
                   {trustItems.map((item, i) => {
