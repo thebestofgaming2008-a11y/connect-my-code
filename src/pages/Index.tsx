@@ -569,6 +569,31 @@ const Index = () => {
       { icon: 'Gem', title: 'Expert Curation', description: 'Our collection is carefully selected for quality and relevance' },
       { icon: 'Headphones', title: 'Customer Support', description: 'Reach us anytime via WhatsApp or our contact page' },
     ]) as Array<{ icon: string; title: string; description: string }>;
+    
+    if (isMobile) {
+      return (
+        <section key={s.id} className="py-8 px-4 bg-primary text-primary-foreground">
+          <div className="container mx-auto">
+            <h2 className="text-xl text-center mb-5 font-philosopher">{s.title || 'Why Choose Us'}</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {items.map((item, i) => {
+                const Icon = ICON_MAP[item.icon] || Shield;
+                return (
+                  <div key={i} className="bg-primary-foreground/10 rounded-xl p-3.5 text-center">
+                    <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-primary-foreground/10 flex items-center justify-center">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-xs font-semibold mb-1">{item.title}</h3>
+                    <p className="text-[10px] text-primary-foreground/70 leading-relaxed">{item.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section key={s.id} className="py-16 md:py-24 px-4 bg-primary text-primary-foreground">
         <div className="container mx-auto">
@@ -598,6 +623,56 @@ const Index = () => {
     const items = (s.content?.items || []) as Array<{ name: string; rating: number; text: string; date: string }>;
     const instagramLink = s.content?.instagram_link as string | undefined;
     if (items.length === 0) return null;
+
+    if (isMobile) {
+      return (
+        <section key={s.id} className="py-8 px-4">
+          <div className="container mx-auto">
+            <div className="text-center mb-5">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="flex items-center gap-0.5">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <Star key={i} className="h-4 w-4 fill-accent text-accent" />
+                  ))}
+                </div>
+                <span className="text-sm font-semibold">4.9/5</span>
+              </div>
+              <h2 className="text-xl font-philosopher mb-1">{s.title || 'Customer Reviews'}</h2>
+              <p className="text-xs text-muted-foreground">Based on {items.length * 50}+ reviews</p>
+            </div>
+            <div className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+              {items.slice(0, 6).map((review, i) => (
+                <Card key={i} className="flex-shrink-0 w-[80vw] max-w-[300px] snap-center p-4 border-border/40 bg-card rounded-xl">
+                  <div className="flex items-center gap-0.5 mb-2">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className={`h-3 w-3 ${j < review.rating ? 'fill-accent text-accent' : 'text-border'}`} />
+                    ))}
+                  </div>
+                  <p className="text-xs text-foreground/80 mb-3 leading-relaxed line-clamp-4">"{review.text}"</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-medium">{review.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{review.date}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <Link to="/reviews">
+                <Button size="sm" variant="outline" className="text-xs h-9 rounded-full px-4">All Reviews</Button>
+              </Link>
+              {instagramLink && (
+                <a href={instagramLink} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" variant="outline" className="text-xs h-9 rounded-full px-4 gap-1.5">
+                    <Instagram className="h-3.5 w-3.5" /> Instagram
+                  </Button>
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section key={s.id} className="py-16 md:py-24 px-4">
         <div className="container mx-auto">
@@ -611,7 +686,7 @@ const Index = () => {
               <Card key={i} className={`p-6 border-border/40 bg-card rounded-lg relative flex flex-col ${m.itemClass}`}>
                 <Quote className="absolute top-4 right-4 h-6 w-6 text-primary/10" />
                 <div className="flex items-center gap-0.5 mb-3">
-                  {[...Array(5)].map((_, j) => <Star key={j} className={`h-3.5 w-3.5 ${j < review.rating ? 'fill-amber-400 text-amber-400' : 'text-border'}`} />)}
+                  {[...Array(5)].map((_, j) => <Star key={j} className={`h-3.5 w-3.5 ${j < review.rating ? 'fill-accent text-accent' : 'text-border'}`} />)}
                 </div>
                 <p className="text-sm text-foreground/80 mb-4 leading-relaxed flex-1">"{review.text}"</p>
                 <div className="pt-3 border-t border-border/30"><p className="font-semibold text-sm">{review.name}</p><p className="text-xs text-muted-foreground mt-0.5">{review.date}</p></div>
@@ -620,15 +695,12 @@ const Index = () => {
           </div>); })()}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10">
             <Link to="/reviews">
-              <Button variant="outline" className="gap-2">
-                Show More Reviews
-              </Button>
+              <Button variant="outline" className="gap-2">Show More Reviews</Button>
             </Link>
             {instagramLink && (
               <a href={instagramLink} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" className="gap-2">
-                  <Instagram className="h-4 w-4" />
-                  Follow Us on Instagram
+                  <Instagram className="h-4 w-4" /> Follow Us on Instagram
                 </Button>
               </a>
             )}
