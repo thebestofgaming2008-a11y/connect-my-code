@@ -782,6 +782,8 @@ export const products: Product[] = [
     id: "khawateen-ke-masail-urdu",
     name: "Khawateen ke Masail (Urdu)",
     description: "خواتین کے مسائل - Women's Issues in Islam explained in Urdu. Covers fiqh matters specific to women.",
+    author: "Hafiz Imran Ayub Lahori",
+    publisher: "Darussalam",
     price: 14.99,
     priceInr: 1249,
     category: "urdu",
