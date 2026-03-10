@@ -734,6 +734,8 @@ export const products: Product[] = [
     id: "supporting-rights-believing-women",
     name: "Supporting the Rights of the Believing Women",
     description: "A scholarly work addressing the rights of women in Islam and defending them against misconceptions and oppression.",
+    author: "Umm Salamah As-Salafiyyah",
+    publisher: "Tarbiyyah Publishing",
     price: 18.99,
     priceInr: 500,
     category: "women",
