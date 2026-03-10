@@ -352,8 +352,8 @@ const Index = () => {
                       onClick={() => setActiveHeroBook(isActive ? null : i)}
                     >
                       <Link to={`/product/${product.id}`}>
-                        <img
-                          src={product.images![0]}
+                        <ProductImage
+                          src={product.images?.[0] || '/placeholder.svg'}
                           alt={product.name}
                           className={`w-full aspect-[3/4] object-cover rounded-xl transition-shadow duration-500 ${isActive ? 'shadow-[0_25px_60px_rgba(0,0,0,0.25)]' : 'shadow-lg'}`}
                         />
