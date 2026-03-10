@@ -511,6 +511,8 @@ export const products: Product[] = [
     id: "tafsir-ahsan-kalam-urdu",
     name: "Tafseer Ahsan-ul-Kalam (Urdu)",
     description: "تفسیر احسن الکلام - A comprehensive Urdu Tafsir known for its clarity and adherence to authentic understanding.",
+    author: "Hafiz Salahuddin Yusuf",
+    publisher: "Darussalam",
     price: 49.99,
     priceInr: 900,
     category: "urdu",
