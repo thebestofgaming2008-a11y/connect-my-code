@@ -622,7 +622,7 @@ export const products: Product[] = [
     inStock: true,
     rating: 0,
     reviews: 0,
-    tags: ["qasas anbiya", "prophets", "ibn kathir", "stories", "arabic"],
+    tags: ["qasas anbiya", "prophets", "ibn kathir", "stories", "urdu stories"],
   },
   {
     id: "sublime-beauty-prophet",
