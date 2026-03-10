@@ -644,6 +644,8 @@ export const products: Product[] = [
     id: "honorable-wives-prophet",
     name: "The Honorable Wives of the Prophet ﷺ",
     description: "Biographies of the Mothers of the Believers - the noble wives of Prophet Muhammad ﷺ and their contributions to Islam.",
+    author: "Abdul Malik Mujahid",
+    publisher: "Darussalam",
     price: 16.99,
     priceInr: 1449,
     category: "seerah",
