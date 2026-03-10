@@ -1115,6 +1115,8 @@ export const products: Product[] = [
     id: "rizq-lawful-earnings",
     name: "Rizq: Lawful Earnings in Islam",
     description: "Understanding halal income and avoiding haram earnings. Essential guide to Islamic economics.",
+    author: "Dr. Muhammad Iqbal Kilani",
+    publisher: "Dar As-Sunnah",
     price: 14.99,
     priceInr: 280,
     category: "fiqh",
