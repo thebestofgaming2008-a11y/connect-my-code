@@ -338,6 +338,7 @@ export const products: Product[] = [
     name: "Usool As-Sunnah (Urdu)",
     description: "أصول السنة - The Foundations of the Sunnah by Imam Ahmad ibn Hanbal, with sharh by Shaykh Rabee' ibn Haadee Al-Madkhali. Urdu translation by Tariq Ali Brohi.",
     author: "Imam Ahmad ibn Hanbal",
+    publisher: "Darussalam",
     price: 14.99,
     priceInr: 1249,
     category: "urdu",
