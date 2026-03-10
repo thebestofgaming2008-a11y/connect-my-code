@@ -257,6 +257,7 @@ export const products: Product[] = [
     name: "The Book of Tawheed (Oneness of Allah)",
     description: "An independent compilation on the subject of Tawheed (Oneness of Allah) by Sh. Saleh al-Fozan. This is a separate scholarly work, not a commentary on Kitab At-Tawheed of Muhammad ibn Abdul Wahhab.",
     author: "Sh. Saleh al-Fozan",
+    publisher: "Darussalam",
     price: 24.99,
     priceInr: 2099,
     category: "aqeedah",
