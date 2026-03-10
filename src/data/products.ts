@@ -1081,6 +1081,8 @@ export const products: Product[] = [
     id: "they-are-enemy-beware",
     name: "They Are The Enemy, So Beware of Them",
     description: "Identifying the enemies of Islam and how to protect oneself and the community from their harm.",
+    author: "Shaykh Salih Al-Fawzan",
+    publisher: "Darussalam",
     price: 12.99,
     priceInr: 1099,
     category: "aqeedah",
