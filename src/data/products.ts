@@ -1097,6 +1097,8 @@ export const products: Product[] = [
     id: "questions-jinn",
     name: "Questions Relating to the Jinn",
     description: "Islamic understanding of Jinn, their nature, and protection from their harm. Based on Quran and Sunnah.",
+    author: "Shaykh Salih Al-Munajjid",
+    publisher: "Darussalam",
     price: 12.99,
     priceInr: 1099,
     category: "aqeedah",
