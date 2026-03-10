@@ -1052,6 +1052,8 @@ export const products: Product[] = [
     id: "beautiful-names-allah",
     name: "Explanation of the Beautiful and Perfect Names of Allah",
     description: "Understanding the names and attributes of Allah and their meanings and implications for a Muslim's life.",
+    author: "Shaykh Sa'di ibn Muhammad Al-Ghaamidi",
+    publisher: "Darussalam",
     price: 22.99,
     priceInr: 650,
     category: "aqeedah",
