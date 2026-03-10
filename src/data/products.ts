@@ -694,6 +694,8 @@ export const products: Product[] = [
     id: "important-lessons-muslim-women",
     name: "Important Lessons for Muslim Women",
     description: "Essential teachings for Muslim women covering worship, dress code, family life, and spiritual development.",
+    author: "Shaykh Ibn Baz",
+    publisher: "Darussalam",
     price: 16.99,
     priceInr: 1449,
     category: "women",
