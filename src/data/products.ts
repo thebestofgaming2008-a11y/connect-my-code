@@ -628,6 +628,8 @@ export const products: Product[] = [
     id: "sublime-beauty-prophet",
     name: "The Sublime Beauty of the Prophet ﷺ",
     description: "A detailed description of the physical appearance, character, and mannerisms of Prophet Muhammad ﷺ based on authentic narrations.",
+    author: "Imam At-Tirmidhi",
+    publisher: "Darussalam",
     price: 14.99,
     priceInr: 500,
     category: "seerah",
