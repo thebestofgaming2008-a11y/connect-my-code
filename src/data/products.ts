@@ -766,6 +766,8 @@ export const products: Product[] = [
     id: "dress-code-muslim-women",
     name: "The Dress Code for Muslim Women in Quran and Sunnah",
     description: "Detailed explanation of Islamic dress code for women with evidence from Quran and authentic hadith.",
+    author: "Shaykh Abdul Aziz bin Bazz",
+    publisher: "Darussalam",
     price: 14.99,
     priceInr: 1249,
     category: "women",
