@@ -837,6 +837,8 @@ export const products: Product[] = [
     id: "guidelines-raising-children",
     name: "Guidelines for Raising Children",
     description: "Islamic guidance on raising righteous children based on Quran, Sunnah, and wisdom of scholars.",
+    author: "Shaykh Muhammad bin Jameel Zaynoo",
+    publisher: "Darussalam",
     price: 15.99,
     priceInr: 1349,
     category: "fiqh",
