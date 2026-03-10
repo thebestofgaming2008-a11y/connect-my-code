@@ -1539,7 +1539,7 @@ export const products: Product[] = [
     price: 7.19,
     priceInr: 600,
     category: "clothing",
-    images: [],
+    images: ["/images/Extra images/placeholder-niqab.jpg"],
     inStock: true,
     rating: 0,
     reviews: 0,
