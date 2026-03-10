@@ -1385,6 +1385,7 @@ export const products: Product[] = [
     id: "womans-guide-raising-family",
     name: "A Woman's Guide to Raising a Family",
     description: "Islamic guidance for mothers on raising righteous children and building a strong Muslim family.",
+    author: "Umm Abdillah Al-Wadi'iyyah",
     price: 9.99,
     priceInr: 260,
     category: "women",
