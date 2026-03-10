@@ -221,7 +221,7 @@ export const products: Product[] = [
     id: "kitab-tawhid-uthaymeen-commentary",
     name: "Commentary on Kitab At-Tawheed — 2 Volume Set (Ibn Al-Uthaymeen)",
     description: "Comprehensive 2-volume commentary on Kitab At-Tawheed by Shaykh Muhammad bin Salih Al-Uthaymeen. Published by Darussalam.",
-    author: "Muhammad ibn Abdul Wahhab",
+    author: "Shaykh Muhammad bin Salih Al-Uthaymeen (Commentary on Muhammad ibn Abdul Wahhab)",
     publisher: "Darussalam",
     price: 39.99,
     priceInr: 3349,
