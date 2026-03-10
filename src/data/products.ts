@@ -1370,6 +1370,7 @@ export const products: Product[] = [
     id: "20-pieces-advice-sister-marriage",
     name: "20 Pieces of Advice to My Sister Before Her Marriage",
     description: "Practical and beneficial Islamic advice for women preparing for marriage, covering rights, responsibilities, and building a blessed home.",
+    author: "Shaykh Badr ibn Ali Al-Utaybi",
     price: 9.99,
     priceInr: 280,
     category: "women",
