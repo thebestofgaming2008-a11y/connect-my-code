@@ -546,6 +546,8 @@ export const products: Product[] = [
     id: "historical-marvels-quran",
     name: "Historical Marvels in the Quran",
     description: "Exploring the historical narratives and miracles mentioned in the Quran. Perfect for understanding the Quran's historical context.",
+    author: "Dr. Abdul Muhsin Al-Mutairi",
+    publisher: "Darussalam",
     price: 19.99,
     priceInr: 1699,
     category: "tafsir",
