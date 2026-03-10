@@ -750,6 +750,8 @@ export const products: Product[] = [
     id: "great-women-of-islam",
     name: "Great Women of Islam",
     description: "Inspiring biographies of notable Muslim women from the time of the Prophet ﷺ and beyond.",
+    author: "Mahmood Ahmad Ghadanfar",
+    publisher: "Darussalam",
     price: 17.99,
     priceInr: 1499,
     category: "women",
