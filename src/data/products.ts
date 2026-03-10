@@ -562,6 +562,8 @@ export const products: Product[] = [
     id: "quran-english-translation",
     name: "The Noble Quran (English Translation with Arabic Text)",
     description: "Complete Quran with Arabic text, English translation, and Romanized transliteration. Perfect for those learning to read Quran.",
+    author: "Dr. Muhammad Muhsin Khan & Dr. Muhammad Taqi-ud-Din Al-Hilali",
+    publisher: "Darussalam",
     price: 29.99,
     priceInr: 2499,
     category: "tafsir",
