@@ -424,6 +424,7 @@ export const products: Product[] = [
     id: "manhaj-salaf",
     name: "Manhaj As-Salaf (Urdu)",
     description: "منہج سلف — Understanding the methodology of the Salaf in matters of creed, worship, and conduct. Urdu translation. Published by Darussalam.",
+    author: "Shaykh Muhammad bin Jameel Zaynoo",
     publisher: "Darussalam",
     price: 22.99,
     priceInr: 1899,
