@@ -289,6 +289,7 @@ export const products: Product[] = [
     name: "Guide to Sound Creed — A Book on Muslim Creed and Faith",
     description: "A comprehensive guide to Muslim creed and faith by Dr. Salih Al-Fawzan, Professor of Islamic Jurisprudence, Member of the Board of Senior Ulema and the Permanent Committee for Fatwa and Research. Covers the pillars of faith with evidence from the Quran and Sunnah.",
     author: "Dr. Salih Al-Fawzan",
+    publisher: "Darussalam",
     price: 24.99,
     priceInr: 2099,
     category: "aqeedah",
