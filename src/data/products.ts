@@ -409,6 +409,7 @@ export const products: Product[] = [
     name: "The Book of Faith",
     description: "A detailed exploration of Iman (faith) in Islam, covering its pillars, branches, and manifestations in a Muslim's life.",
     author: "Shaykh Al-Islam Ibn Taymiyyah",
+    publisher: "Darussalam",
     price: 18.99,
     priceInr: 550,
     category: "aqeedah",
