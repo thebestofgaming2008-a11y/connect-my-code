@@ -438,6 +438,8 @@ export const products: Product[] = [
     id: "masala-takfeer-urdu",
     name: "Mas'ala Takfeer (Urdu)",
     description: "مسئلہ تکفیر - The issue of Takfeer (declaring someone a disbeliever) explained in Urdu. Important scholarly discussion on this sensitive topic.",
+    author: "Shaykh Salih Al-Fawzan",
+    publisher: "Darussalam",
     price: 14.99,
     priceInr: 1249,
     category: "urdu",
