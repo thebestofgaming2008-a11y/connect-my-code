@@ -530,6 +530,8 @@ export const products: Product[] = [
     id: "tafsir-ahsanul-bayan-urdu",
     name: "Tafsir Ahsan-ul-Bayan (Urdu)",
     description: "تفسیر احسن البیان - Another excellent Urdu commentary on the Quran with detailed explanations.",
+    author: "Hafiz Salahuddin Yusuf",
+    publisher: "Darussalam",
     price: 44.99,
     priceInr: 3749,
     category: "urdu",
