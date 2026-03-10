@@ -998,6 +998,8 @@ export const products: Product[] = [
     id: "evils-of-music",
     name: "The Evils of Music",
     description: "Islamic ruling on music and musical instruments with evidence from Quran and Sunnah.",
+    author: "Shaykh Abdul Aziz At-Tarefe",
+    publisher: "Dar At-Tadmuriyyah",
     price: 12.99,
     priceInr: 1099,
     category: "purification",
