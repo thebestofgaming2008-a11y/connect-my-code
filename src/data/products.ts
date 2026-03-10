@@ -967,6 +967,8 @@ export const products: Product[] = [
     id: "journey-of-strangers",
     name: "The Journey of the Strangers",
     description: "Understanding the hadith about Islam beginning as something strange and returning as something strange.",
+    author: "Ibn Rajab Al-Hanbali & Al-Ajurri",
+    publisher: "Dar As-Sunnah",
     price: 14.99,
     priceInr: 300,
     category: "purification",
