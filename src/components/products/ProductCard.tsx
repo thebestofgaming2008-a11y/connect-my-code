@@ -3,6 +3,7 @@ import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/hooks/useProducts';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import ProductImage from '@/components/ui/product-image';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrencyContext } from '@/contexts/CurrencyContext';
 import { useToast } from '@/hooks/use-toast';
