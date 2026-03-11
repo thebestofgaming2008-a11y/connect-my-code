@@ -3,6 +3,7 @@ import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/hooks/useProducts';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import ProductImage from '@/components/ui/product-image';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrencyContext } from '@/contexts/CurrencyContext';
 import { useToast } from '@/hooks/use-toast';
@@ -51,7 +52,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="bg-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20">
         {/* Image */}
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-          <img
+          <ProductImage
             src={mainImage}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
