@@ -52,7 +52,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="bg-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20">
         {/* Image */}
         <div className="relative aspect-[3/4] overflow-hidden bg-muted">
-          <img
+          <ProductImage
             src={mainImage}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
