@@ -519,41 +519,58 @@ const Shop = () => {
                     );
                   }
 
-                  // Desktop card (unchanged)
+                  // Desktop card — enhanced with author, sale badge, scarcity, feedback
                   return (
-                    <Card key={product.id} className="group overflow-hidden hover:shadow-lg transition-shadow border-border hover:border-primary/30">
+                    <Card key={product.id} className="group overflow-hidden hover:shadow-lg transition-all duration-300 border-border hover:border-primary/30 relative">
                       <Link to={`/product/${product.id}`}>
-                        <div className="relative aspect-square overflow-hidden bg-muted">
+                        <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                           <ProductImage
                             src={product.images?.[0] || '/placeholder.svg'}
                             alt={product.name}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                          {product.badge && <Badge className="absolute top-3 left-3">{product.badge}</Badge>}
-                          {isOutOfStock && <Badge className="absolute top-3 left-3 mt-8" variant="destructive">Out of Stock</Badge>}
+                          {/* Badges — top left */}
+                          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                            {product.badge && <Badge className="bg-primary text-primary-foreground">{product.badge}</Badge>}
+                            {salePercent > 0 && <Badge variant="destructive">-{salePercent}% OFF</Badge>}
+                            {isOutOfStock && <Badge variant="destructive">Out of Stock</Badge>}
+                          </div>
+                          {/* Wishlist — visible on hover */}
                           {user && (
                             <button
-                              className="absolute top-3 right-3 z-10 h-8 w-8 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-sm transition-colors"
+                              className="absolute top-3 right-3 z-10 h-9 w-9 flex items-center justify-center rounded-full bg-background/80 hover:bg-background shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist.mutate({ productId: product.id }); }}
                             >
-                              <Heart className={`h-4 w-4 ${wishlistIds.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                              <Heart className={`h-4 w-4 ${wishlistIds.has(product.id) ? 'fill-destructive text-destructive' : 'text-muted-foreground'}`} />
                             </button>
                           )}
                         </div>
                       </Link>
-                      <CardContent className="p-4 space-y-3">
+                      <CardContent className="p-4 space-y-2">
                         <Link to={`/product/${product.id}`}>
                           <h3 className="font-semibold hover:text-primary transition-colors line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
                         </Link>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg font-bold text-primary">{priceInfo.displayPrice}</span>
-                            {priceInfo.originalPrice && <span className="text-sm line-through text-muted-foreground">{priceInfo.originalPrice}</span>}
-                          </div>
+                        {product.author && (
+                          <p className="text-xs text-muted-foreground truncate">by {product.author}</p>
+                        )}
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg font-bold text-primary">{priceInfo.displayPrice}</span>
+                          {priceInfo.originalPrice && <span className="text-sm line-through text-muted-foreground">{priceInfo.originalPrice}</span>}
                         </div>
-                        <Button className="w-full" disabled={isOutOfStock} onClick={() => handleAddToCart(product)}>
-                          <ShoppingCart className="h-4 w-4 mr-2" />
-                          {!isOutOfStock ? "Add to Cart" : "Out of Stock"}
+                        {/* Scarcity signal */}
+                        {!isOutOfStock && product.stock_quantity !== null && product.stock_quantity <= 5 && product.stock_quantity > 0 && (
+                          <p className="text-xs text-destructive font-medium">Only {product.stock_quantity} left!</p>
+                        )}
+                        <Button
+                          className={`w-full transition-all duration-200 ${justAdded ? 'bg-green-600 hover:bg-green-600 text-white' : ''}`}
+                          disabled={isOutOfStock}
+                          onClick={() => handleAddToCart(product)}
+                        >
+                          {justAdded ? (
+                            <><Check className="h-4 w-4 mr-2" />Added!</>
+                          ) : (
+                            <><ShoppingCart className="h-4 w-4 mr-2" />{!isOutOfStock ? "Add to Cart" : "Out of Stock"}</>
+                          )}
                         </Button>
                       </CardContent>
                     </Card>
