@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import { CheckCircle, Package, ArrowRight, Home, Truck, Mail, MessageCircle, ClipboardList } from 'lucide-react';
+import { CheckCircle, Package, ArrowRight, Home, Truck, AlertTriangle, MessageCircle, ClipboardList } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
 import Footer from '@/components/layout/Footer';
