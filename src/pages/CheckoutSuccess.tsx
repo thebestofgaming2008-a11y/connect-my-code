@@ -61,6 +61,17 @@ const CheckoutSuccess = () => {
             </p>
           </div>
 
+          {/* Important: No email notice — prominent */}
+          <div className="rounded-xl border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 p-4 mb-6 flex items-start gap-3 shadow-sm">
+            <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">No confirmation email will be sent</p>
+              <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
+                All order updates are available in your <Link to="/my-orders" className="underline font-medium">My Orders</Link> page. Bookmark it to stay updated!
+              </p>
+            </div>
+          </div>
+
           {/* Order number card */}
           {orderNumber && (
             <div className="rounded-xl border border-border bg-card p-5 mb-6 text-center shadow-sm">
