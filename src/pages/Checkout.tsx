@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,11 +13,12 @@ import { useCurrencyContext } from '@/contexts/CurrencyContext';
 import { calculateShipping, getShippingInfo } from '@/lib/pricing';
 import { useToast } from '@/hooks/use-toast';
 import { useRazorpay } from '@/hooks/useRazorpay';
-import { ArrowLeft, Loader2, ShoppingBag, Package, Lock, CreditCard, Shield, MessageCircle, Truck } from 'lucide-react';
+import { ArrowLeft, Loader2, ShoppingBag, Package, Lock, CreditCard, Shield, MessageCircle, Truck, AlertTriangle } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { z } from 'zod';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
+import { supabase as supabaseAnon } from '@/integrations/supabase/client';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
