@@ -60,7 +60,7 @@ const Header = () => {
       <div className="bg-muted text-muted-foreground text-xs py-1.5 px-4 border-b border-border/30">
         <div className="container mx-auto flex items-center justify-center relative">
           <span className="text-center">
-            {isIndia ? 'We ship across India · Fast & reliable delivery' : 'We ship worldwide · International orders via WhatsApp'}
+            {isIndia ? 'Free shipping on orders above ₹999 · Fast delivery across India' : 'International orders may incur customs/import duties · Orders via WhatsApp'}
           </span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

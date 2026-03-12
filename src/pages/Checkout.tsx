@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,11 +13,12 @@ import { useCurrencyContext } from '@/contexts/CurrencyContext';
 import { calculateShipping, getShippingInfo } from '@/lib/pricing';
 import { useToast } from '@/hooks/use-toast';
 import { useRazorpay } from '@/hooks/useRazorpay';
-import { ArrowLeft, Loader2, ShoppingBag, Package, Lock, CreditCard, Shield, MessageCircle, Truck } from 'lucide-react';
+import { ArrowLeft, Loader2, ShoppingBag, Package, Lock, CreditCard, Shield, MessageCircle, Truck, AlertTriangle } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { z } from 'zod';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
+import { supabase as supabaseAnon } from '@/integrations/supabase/client';
 
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
@@ -78,6 +79,29 @@ const Checkout = () => {
   const queryClient = useQueryClient();
   const [formErrors, setFormErrors] = useState<CheckoutErrors>({});
   const accessGranted = useRef(false);
+  const submittingRef = useRef(false);
+
+  // Recover pending order on mount (handles refresh during payment)
+  useEffect(() => {
+    const pendingOrderId = sessionStorage.getItem('pendingOrderId');
+    if (pendingOrderId && user) {
+      supabaseAnon.from('orders').select('id, order_number, payment_status').eq('id', pendingOrderId).single()
+        .then(({ data }) => {
+          if (data?.payment_status === 'paid') {
+            sessionStorage.removeItem('pendingOrderId');
+            clearCart();
+            queryClient.invalidateQueries({ queryKey: ['user-orders'] });
+            navigate(`/checkout-success?order_number=${data.order_number}`);
+          }
+        });
+    }
+  }, [user]);
+
+  // Warn user before leaving during payment
+  const beforeUnloadHandler = useCallback((e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  }, []);
 
   if (user) accessGranted.current = true;
 
@@ -140,13 +164,20 @@ const Checkout = () => {
 
   const handleRazorpayCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Double-submit guard
+    if (submittingRef.current || paymentLoading) return;
+    submittingRef.current = true;
+
     setFormErrors({});
 
-    if (!user) { navigate('/auth?redirect=/checkout'); return; }
-    if (items.length === 0) { toast({ title: "Cart is empty", variant: "destructive" }); return; }
+    if (!user) { submittingRef.current = false; navigate('/auth?redirect=/checkout'); return; }
+    if (items.length === 0) { submittingRef.current = false; toast({ title: "Cart is empty", variant: "destructive" }); return; }
 
     const validated = validateForm();
-    if (!validated) return;
+    if (!validated) { submittingRef.current = false; return; }
+
+    // Add beforeunload warning during payment
+    window.addEventListener('beforeunload', beforeUnloadHandler);
 
     try {
       // Razorpay always charges in INR — compute INR prices for payment
@@ -174,6 +205,8 @@ const Checkout = () => {
       const shippingINR = calculateShipping(getTotal('INR', exchangeRates), 'INR', userCountry, exchangeRates);
       const response = await initiatePayment(cartItems, shippingData, 'INR', user.id, appliedCoupon?.code, shippingINR);
       if (response.verified && response.order) {
+        sessionStorage.setItem('last_order_number', response.order.order_number);
+        sessionStorage.removeItem('pendingOrderId');
         clearCart();
         queryClient.invalidateQueries({ queryKey: ['user-orders'] });
         queryClient.invalidateQueries({ queryKey: ['orders'] });
@@ -185,6 +218,9 @@ const Checkout = () => {
       if (!msg.includes('cancelled')) {
         toast({ title: 'Payment Error', description: msg, variant: 'destructive' });
       }
+    } finally {
+      submittingRef.current = false;
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
     }
   };
 
@@ -346,10 +382,18 @@ const Checkout = () => {
                     </span>
                   </div>
 
+                  {/* No-email info banner */}
+                  <div className="flex items-start gap-2.5 p-3 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700">
+                    <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-amber-800 dark:text-amber-300">
+                      <strong>No confirmation emails.</strong> All order updates will be in your <span className="font-semibold">My Orders</span> page.
+                    </p>
+                  </div>
+
                   {/* India: Razorpay button */}
                   {shippingToIndia ? (
                     <>
-                      <Button type="submit" className="w-full h-12 text-base" disabled={paymentLoading}>
+                      <Button type="submit" className="w-full h-12 text-base" disabled={paymentLoading || submittingRef.current}>
                         {paymentLoading ? (
                           <><Loader2 className="h-5 w-5 animate-spin mr-2" />Processing...</>
                         ) : (

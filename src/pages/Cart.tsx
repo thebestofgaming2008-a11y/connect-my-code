@@ -266,6 +266,9 @@ const Cart = () => {
                       {user ? "Proceed to Checkout" : "Login to Checkout"}
                     </Button>
                   </Link>
+                  <p className="text-[11px] text-muted-foreground text-center">
+                    Track orders in your account after purchase — no emails sent
+                  </p>
                 </CardFooter>
               </Card>
             </div>
