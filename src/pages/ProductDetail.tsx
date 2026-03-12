@@ -58,7 +58,20 @@ const ProductDetail = () => {
     setSelectedImage(0);
     setQuantity(1);
     setAddedToCart(false);
+    setShowDesktopStickyATC(false);
   }, [id]);
+
+  // Desktop sticky ATC: show when main CTA scrolls out of view
+  useEffect(() => {
+    if (isMobile) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowDesktopStickyATC(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    const target = document.getElementById('desktop-atc-section');
+    if (target) observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile, product]);
 
   // Sync mobile image scroll with selectedImage
   useEffect(() => {
