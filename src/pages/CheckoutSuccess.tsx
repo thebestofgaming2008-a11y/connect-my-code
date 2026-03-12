@@ -19,11 +19,26 @@ const TIMELINE_STEPS = [
 const CheckoutSuccess = () => {
   useDocumentTitle('Order Confirmed');
   const [searchParams] = useSearchParams();
-  const { clearCart } = useCart();
-  const orderNumber = searchParams.get('order_number');
+  const { clearCart, items } = useCart();
+  const clearedRef = useRef(false);
 
+  // Recover order number from URL or sessionStorage
+  const urlOrderNumber = searchParams.get('order_number');
+  const orderNumber = urlOrderNumber || sessionStorage.getItem('last_order_number');
+
+  // Persist order number to sessionStorage for refresh resilience
   useEffect(() => {
-    clearCart();
+    if (urlOrderNumber) {
+      sessionStorage.setItem('last_order_number', urlOrderNumber);
+    }
+  }, [urlOrderNumber]);
+
+  // Only clear cart once, and only if there are items
+  useEffect(() => {
+    if (!clearedRef.current && items.length > 0) {
+      clearedRef.current = true;
+      clearCart();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
