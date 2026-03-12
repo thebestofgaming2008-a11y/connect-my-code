@@ -746,10 +746,13 @@ const ProductDetail = () => {
                   )}
                 </div>
 
-                <div className="flex gap-3">
-                  <Button size="lg" className="flex-1" disabled={!isInStock} onClick={handleAddToCart}>
-                    <ShoppingCart className="h-5 w-5 mr-2" />
-                    {isInStock ? "Add to Cart" : "Out of Stock"}
+                <div className="flex gap-3" id="desktop-atc-section">
+                  <Button size="lg" className={`flex-1 transition-all duration-200 ${addedToCart ? 'bg-green-600 hover:bg-green-600' : ''}`} disabled={!isInStock} onClick={handleAddToCart}>
+                    {addedToCart ? (
+                      <><Check className="h-5 w-5 mr-2" />Added!</>
+                    ) : (
+                      <><ShoppingCart className="h-5 w-5 mr-2" />{isInStock ? "Add to Cart" : "Out of Stock"}</>
+                    )}
                   </Button>
                   {user && (
                     <Button
@@ -757,12 +760,34 @@ const ProductDetail = () => {
                       variant="outline"
                       onClick={() => toggleWishlist.mutate({ productId: product.id })}
                       disabled={toggleWishlist.isPending}
-                      className={isInWishlist ? "text-red-500 border-red-500" : ""}
+                      className={isInWishlist ? "text-destructive border-destructive" : ""}
                     >
                       <Heart className={`h-5 w-5 ${isInWishlist ? "fill-current" : ""}`} />
                     </Button>
                   )}
                 </div>
+
+                {/* Trust badges — below CTA for conversion */}
+                <div className="flex items-center justify-center gap-4 py-3 border border-border/40 rounded-lg bg-muted/30">
+                  {[
+                    { icon: Shield, text: '100% Authentic' },
+                    { icon: Lock, text: 'Secure Payment' },
+                    { icon: Package, text: 'Easy Returns' },
+                  ].map(({ icon: Icon, text }) => (
+                    <div key={text} className="flex items-center gap-1.5">
+                      <Icon className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-xs text-muted-foreground font-medium">{text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Social proof */}
+                {(product.reviews_count || 0) > 0 && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 text-primary" />
+                    <span>{product.reviews_count} customers reviewed this product</span>
+                  </div>
+                )}
 
                 <div className="flex gap-2">
                   <Button
