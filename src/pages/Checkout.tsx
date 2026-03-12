@@ -79,6 +79,29 @@ const Checkout = () => {
   const queryClient = useQueryClient();
   const [formErrors, setFormErrors] = useState<CheckoutErrors>({});
   const accessGranted = useRef(false);
+  const submittingRef = useRef(false);
+
+  // Recover pending order on mount (handles refresh during payment)
+  useEffect(() => {
+    const pendingOrderId = sessionStorage.getItem('pendingOrderId');
+    if (pendingOrderId && user) {
+      supabaseAnon.from('orders').select('id, order_number, payment_status').eq('id', pendingOrderId).single()
+        .then(({ data }) => {
+          if (data?.payment_status === 'paid') {
+            sessionStorage.removeItem('pendingOrderId');
+            clearCart();
+            queryClient.invalidateQueries({ queryKey: ['user-orders'] });
+            navigate(`/checkout-success?order_number=${data.order_number}`);
+          }
+        });
+    }
+  }, [user]);
+
+  // Warn user before leaving during payment
+  const beforeUnloadHandler = useCallback((e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = '';
+  }, []);
 
   if (user) accessGranted.current = true;
 
