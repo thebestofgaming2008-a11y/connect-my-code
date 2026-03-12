@@ -307,20 +307,27 @@ const Index = () => {
                   </Link>
                 )}
               </div>
-              {trustItems.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
-                  {trustItems.map((item, i) => {
-                    const Icon = ICON_MAP[item.icon] || Shield;
-                    const bgColor = item.color?.includes('green') ? 'bg-green-50 border-green-200/60' : item.color?.includes('blue') ? 'bg-blue-50 border-blue-200/60' : item.color?.includes('yellow') ? 'bg-amber-50 border-amber-200/60' : 'bg-primary/5 border-primary/10';
-                    return (
-                      <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${bgColor}`}>
-                        <Icon className={`h-4 w-4 ${item.color || 'text-primary'}`} />
-                        <span className="text-foreground/80 font-medium text-xs">{item.text}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+              {/* Trust badges — always show on desktop */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4 pt-5 border-t border-border/30">
+                {trustItems.length > 0 ? trustItems.map((item, i) => {
+                  const Icon = ICON_MAP[item.icon] || Shield;
+                  const bgColor = item.color?.includes('green') ? 'bg-green-50 border-green-200/60' : item.color?.includes('blue') ? 'bg-blue-50 border-blue-200/60' : item.color?.includes('yellow') ? 'bg-amber-50 border-amber-200/60' : 'bg-primary/5 border-primary/10';
+                  return (
+                    <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm ${bgColor}`}>
+                      <Icon className={`h-4 w-4 ${item.color || 'text-primary'}`} />
+                      <span className="text-foreground/80 font-medium text-xs">{item.text}</span>
+                    </div>
+                  );
+                }) : (
+                  // Default trust badges when none configured
+                  ['100% Authentic', 'Worldwide Delivery', 'Secure Checkout'].map((text, i) => (
+                    <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-full border bg-primary/5 border-primary/10 text-sm">
+                      <CheckCircle className="h-4 w-4 text-primary" />
+                      <span className="text-foreground/80 font-medium text-xs">{text}</span>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
 
             {/* Right — Stacked books, hover slides outward */}

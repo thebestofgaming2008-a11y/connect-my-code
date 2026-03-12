@@ -987,6 +987,41 @@ const ProductDetail = () => {
               </section>
             )}
           </main>
+
+          {/* Desktop Sticky ATC Bar — appears when main CTA scrolls out */}
+          {showDesktopStickyATC && product && (
+            <div className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+              <div className="container mx-auto px-4 flex items-center gap-4 py-3 max-w-6xl">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <ProductImage
+                    src={images[0]}
+                    alt={product.name}
+                    className="w-10 h-10 rounded object-cover flex-shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold truncate">{product.name}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-primary">{priceInfo.displayPrice}</span>
+                      {priceInfo.originalPrice && <span className="text-xs line-through text-muted-foreground">{priceInfo.originalPrice}</span>}
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  size="lg"
+                  disabled={!isInStock}
+                  onClick={handleAddToCart}
+                  className={`h-11 px-8 font-semibold transition-all duration-200 ${addedToCart ? 'bg-green-600 hover:bg-green-600' : ''}`}
+                >
+                  {addedToCart ? (
+                    <><Check className="h-5 w-5 mr-2" />Added!</>
+                  ) : isInStock ? (
+                    <><ShoppingCart className="h-5 w-5 mr-2" />Add to Cart</>
+                  ) : 'Sold Out'}
+                </Button>
+              </div>
+            </div>
+          )}
+
           <Footer />
         </>
       )}
