@@ -50,6 +50,7 @@ const ProductDetail = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [reviewSort, setReviewSort] = useState<ReviewSortOption>('newest');
+  const [showDesktopStickyATC, setShowDesktopStickyATC] = useState(false);
   const reviewStats = useReviewStats(reviews);
   const imageScrollRef = useRef<HTMLDivElement>(null);
 
