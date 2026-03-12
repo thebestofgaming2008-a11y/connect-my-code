@@ -164,13 +164,20 @@ const Checkout = () => {
 
   const handleRazorpayCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Double-submit guard
+    if (submittingRef.current || paymentLoading) return;
+    submittingRef.current = true;
+
     setFormErrors({});
 
-    if (!user) { navigate('/auth?redirect=/checkout'); return; }
-    if (items.length === 0) { toast({ title: "Cart is empty", variant: "destructive" }); return; }
+    if (!user) { submittingRef.current = false; navigate('/auth?redirect=/checkout'); return; }
+    if (items.length === 0) { submittingRef.current = false; toast({ title: "Cart is empty", variant: "destructive" }); return; }
 
     const validated = validateForm();
-    if (!validated) return;
+    if (!validated) { submittingRef.current = false; return; }
+
+    // Add beforeunload warning during payment
+    window.addEventListener('beforeunload', beforeUnloadHandler);
 
     try {
       // Razorpay always charges in INR — compute INR prices for payment
@@ -198,6 +205,8 @@ const Checkout = () => {
       const shippingINR = calculateShipping(getTotal('INR', exchangeRates), 'INR', userCountry, exchangeRates);
       const response = await initiatePayment(cartItems, shippingData, 'INR', user.id, appliedCoupon?.code, shippingINR);
       if (response.verified && response.order) {
+        sessionStorage.setItem('last_order_number', response.order.order_number);
+        sessionStorage.removeItem('pendingOrderId');
         clearCart();
         queryClient.invalidateQueries({ queryKey: ['user-orders'] });
         queryClient.invalidateQueries({ queryKey: ['orders'] });
@@ -209,6 +218,9 @@ const Checkout = () => {
       if (!msg.includes('cancelled')) {
         toast({ title: 'Payment Error', description: msg, variant: 'destructive' });
       }
+    } finally {
+      submittingRef.current = false;
+      window.removeEventListener('beforeunload', beforeUnloadHandler);
     }
   };
 
