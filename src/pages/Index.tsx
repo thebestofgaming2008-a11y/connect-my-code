@@ -489,14 +489,26 @@ const Index = () => {
                             <p className={`${isMobile ? 'text-[10px]' : 'text-sm'} text-muted-foreground line-through`}>{priceInfo.originalPrice}</p>
                           )}
                         </div>
-                        <Button 
-                          size="sm" 
-                          className={`${isMobile ? 'h-9 w-9' : 'h-8 w-8'} p-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-sm`}
-                          disabled={isOutOfStock} 
-                          onClick={(e) => { e.preventDefault(); handleAddToCart(product); }}
-                        >
-                          <Plus className={isMobile ? 'h-4 w-4' : 'h-4 w-4'} />
-                        </Button>
+                        {isMobile ? (
+                          <Button 
+                            size="sm" 
+                            className="h-9 w-9 p-0 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full shadow-sm"
+                            disabled={isOutOfStock} 
+                            onClick={(e) => { e.preventDefault(); handleAddToCart(product); }}
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        ) : (
+                          <Button 
+                            size="sm" 
+                            className="h-8 px-3 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md shadow-sm text-xs font-medium"
+                            disabled={isOutOfStock} 
+                            onClick={(e) => { e.preventDefault(); handleAddToCart(product); }}
+                          >
+                            <ShoppingBag className="h-3.5 w-3.5 mr-1" />
+                            {isOutOfStock ? 'Sold Out' : 'Add'}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </Card>
