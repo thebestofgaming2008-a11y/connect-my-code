@@ -239,7 +239,7 @@ const Index = () => {
             {/* Social proof — honest, no fake ratings */}
             <div className="flex items-center justify-center gap-1.5 mt-2">
               <Users className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] text-muted-foreground">Loved by 500+ customers worldwide</span>
+              <span className="text-[11px] text-muted-foreground">Join our growing community of readers</span>
             </div>
           </div>
 
