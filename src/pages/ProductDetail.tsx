@@ -645,8 +645,8 @@ const ProductDetail = () => {
                 )}
               </div>
 
-              {/* Product Info */}
-              <div className="space-y-6">
+              {/* Product Info — sticky on desktop */}
+              <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
                 <div>
                   <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
                   {product.author && (
