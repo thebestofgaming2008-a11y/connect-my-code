@@ -612,7 +612,7 @@ const ProductDetail = () => {
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Product Images */}
               <div className="space-y-4">
-                <div className="aspect-square overflow-hidden rounded-lg bg-muted relative">
+                <div className="aspect-[3/4] overflow-hidden rounded-lg bg-muted relative">
                   <ProductImage
                     src={images[selectedImage]}
                     alt={product.name}
