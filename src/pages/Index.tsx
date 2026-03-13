@@ -207,7 +207,7 @@ const Index = () => {
 
             {/* Sub-copy — one line, specific */}
             <p className="text-[13px] text-center text-muted-foreground mb-4">
-              Authentic titles · Aqeedah to Seerah · Trusted by 500+ customers
+              Authentic titles · Aqeedah to Seerah · Shipped worldwide
             </p>
 
             {/* Trust row — 3 uniform micro-badges */}
@@ -239,7 +239,7 @@ const Index = () => {
             {/* Social proof — honest, no fake ratings */}
             <div className="flex items-center justify-center gap-1.5 mt-2">
               <Users className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] text-muted-foreground">Loved by 500+ customers worldwide</span>
+              <span className="text-[11px] text-muted-foreground">Join our growing community of readers</span>
             </div>
           </div>
 
@@ -283,7 +283,7 @@ const Index = () => {
 
     // Desktop hero (existing)
     return (
-      <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
+      <section key={s.id} className="py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left — Text */}
@@ -477,10 +477,13 @@ const Index = () => {
                     </Link>
                     <div className={isMobile ? 'p-2.5' : 'p-4'}>
                       <Link to={`/product/${product.id}`}>
-                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-2'} line-clamp-2 hover:text-primary transition-colors`}>
+                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-1'} line-clamp-2 hover:text-primary transition-colors`}>
                           {product.name}
                         </h3>
                       </Link>
+                      {!isMobile && product.author && (
+                        <p className="text-xs text-muted-foreground truncate mb-1">by {product.author}</p>
+                      )}
                       {/* Mobile: simplified price + add button */}
                       <div className="flex items-center justify-between gap-1">
                         <div className={isMobile ? 'flex flex-col' : 'flex items-center gap-2'}>
@@ -642,10 +645,9 @@ const Index = () => {
                     <Star key={i} className="h-4 w-4 fill-accent text-accent" />
                   ))}
                 </div>
-                <span className="text-sm font-semibold">4.9/5</span>
               </div>
               <h2 className="text-xl font-philosopher mb-1">{s.title || 'Customer Reviews'}</h2>
-              <p className="text-xs text-muted-foreground">Based on {items.length * 50}+ reviews</p>
+              <p className="text-xs text-muted-foreground">Based on 65+ verified customer reviews</p>
             </div>
             <div className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               {items.slice(0, 6).map((review, i) => (

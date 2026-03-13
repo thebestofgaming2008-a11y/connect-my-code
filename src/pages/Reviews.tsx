@@ -145,6 +145,18 @@ const Reviews = () => {
               </a>
             </div>
           )}
+
+          {/* Shop CTA — conversion nudge after social proof */}
+          <div className="text-center mt-10 py-8 border-t border-border/40">
+            <h2 className="text-xl md:text-2xl font-philosopher mb-2">Ready to Start Reading?</h2>
+            <p className="text-sm text-muted-foreground mb-4">Browse our full collection of authentic Islamic books</p>
+            <Link to="/shop">
+              <Button size="lg" className="gap-2">
+                Shop Now
+                <ArrowLeft className="h-4 w-4 rotate-180" />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {lightboxIdx !== null && (

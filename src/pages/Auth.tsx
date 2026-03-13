@@ -324,6 +324,9 @@ const Auth = () => {
                         'Create Account'
                       )}
                     </Button>
+                    <p className="text-[11px] text-muted-foreground text-center mt-3">
+                      Your data is secure · We never share your information
+                    </p>
                   </form>
                 </TabsContent>
               </Tabs>

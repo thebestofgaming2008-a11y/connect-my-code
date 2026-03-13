@@ -404,20 +404,38 @@ const Shop = () => {
           )}
 
           <div className={isMobile ? '' : 'lg:col-span-3'}>
-            {/* Desktop toolbar */}
+            {/* Desktop toolbar + category pills */}
             {!isMobile && (
-              <div className="flex items-center justify-between mb-6 gap-2">
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setShowFilters(!showFilters)}>
-                    <SlidersHorizontal className="h-4 w-4 mr-1" />
-                    Filters
-                  </Button>
-                  <p className="text-sm text-muted-foreground">
-                    {filteredAndSortedProducts.length} products
-                  </p>
+              <>
+                {/* Category pills — 1-click filtering */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {mobileCategoryPills.map(cat => (
+                    <button
+                      key={cat.slug}
+                      onClick={() => setSelectedCategory(cat.slug)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap border ${
+                        selectedCategory === cat.slug
+                          ? 'bg-primary text-primary-foreground border-primary'
+                          : 'bg-card text-muted-foreground border-border/50 hover:border-primary/40 hover:text-foreground'
+                      }`}
+                    >
+                      {cat.name} ({cat.count})
+                    </button>
+                  ))}
                 </div>
-                <SortDropdown value={sortBy} onChange={setSortBy} />
-              </div>
+                <div className="flex items-center justify-between mb-6 gap-2">
+                  <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="lg:hidden" onClick={() => setShowFilters(!showFilters)}>
+                      <SlidersHorizontal className="h-4 w-4 mr-1" />
+                      Filters
+                    </Button>
+                    <p className="text-sm text-muted-foreground">
+                      {filteredAndSortedProducts.length} products
+                    </p>
+                  </div>
+                  <SortDropdown value={sortBy} onChange={setSortBy} />
+                </div>
+              </>
             )}
 
             {productsLoading ? (
