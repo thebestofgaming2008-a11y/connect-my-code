@@ -642,10 +642,9 @@ const Index = () => {
                     <Star key={i} className="h-4 w-4 fill-accent text-accent" />
                   ))}
                 </div>
-                <span className="text-sm font-semibold">4.9/5</span>
               </div>
               <h2 className="text-xl font-philosopher mb-1">{s.title || 'Customer Reviews'}</h2>
-              <p className="text-xs text-muted-foreground">Based on {items.length * 50}+ reviews</p>
+              <p className="text-xs text-muted-foreground">Based on 65+ verified customer reviews</p>
             </div>
             <div className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
               {items.slice(0, 6).map((review, i) => (
