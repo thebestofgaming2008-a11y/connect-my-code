@@ -707,17 +707,6 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  {isInStock ? (
-                    <>
-                      <Check className="h-5 w-5 text-green-500" />
-                      <span className="text-green-500 font-medium">In Stock</span>
-                    </>
-                  ) : (
-                    <span className="text-destructive font-medium">Out of Stock</span>
-                  )}
-                </div>
-
                 <div className="flex gap-3" id="desktop-atc-section">
                   <Button size="lg" className={`flex-1 transition-all duration-200 ${addedToCart ? 'bg-green-600 hover:bg-green-600' : ''}`} disabled={!isInStock} onClick={handleAddToCart}>
                     {addedToCart ? (
