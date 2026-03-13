@@ -82,7 +82,17 @@ const Wishlist = () => {
           </Button>
         </Link>
 
-        <h1 className="text-3xl font-bold mb-8 font-philosopher">My Wishlist</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold font-philosopher">My Wishlist</h1>
+          {wishlistItems.length > 0 && (
+            <Link to="/shop">
+              <Button variant="outline" size="sm" className="gap-1.5">
+                <ShoppingCart className="h-4 w-4" />
+                Continue Shopping
+              </Button>
+            </Link>
+          )}
+        </div>
 
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

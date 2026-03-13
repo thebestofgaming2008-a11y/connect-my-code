@@ -977,7 +977,7 @@ const ProductDetail = () => {
                     return (
                       <Card key={relProduct.id} className="group overflow-hidden hover:shadow-lg transition-shadow">
                         <Link to={`/product/${relProduct.id}`}>
-                          <div className="aspect-square overflow-hidden bg-muted">
+                          <div className="aspect-[3/4] overflow-hidden bg-muted">
                             <ProductImage
                               src={relProduct.images?.[0] || '/placeholder.svg'}
                               alt={relProduct.name}

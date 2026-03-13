@@ -477,10 +477,13 @@ const Index = () => {
                     </Link>
                     <div className={isMobile ? 'p-2.5' : 'p-4'}>
                       <Link to={`/product/${product.id}`}>
-                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-2'} line-clamp-2 hover:text-primary transition-colors`}>
+                        <h3 className={`font-medium ${isMobile ? 'text-xs leading-tight mb-1.5' : 'text-sm mb-1'} line-clamp-2 hover:text-primary transition-colors`}>
                           {product.name}
                         </h3>
                       </Link>
+                      {!isMobile && product.author && (
+                        <p className="text-xs text-muted-foreground truncate mb-1">by {product.author}</p>
+                      )}
                       {/* Mobile: simplified price + add button */}
                       <div className="flex items-center justify-between gap-1">
                         <div className={isMobile ? 'flex flex-col' : 'flex items-center gap-2'}>
