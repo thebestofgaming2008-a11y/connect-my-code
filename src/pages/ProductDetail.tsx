@@ -750,6 +750,84 @@ const ProductDetail = () => {
                   </div>
                 )}
 
+                <Separator />
+
+                {/* Description — collapsible below CTA */}
+                <details className="group" open>
+                  <summary className="flex items-center justify-between cursor-pointer py-2 text-sm font-semibold">
+                    Description
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" />
+                  </summary>
+                  <p className="text-muted-foreground leading-relaxed text-sm pb-2">
+                    {product.description || 'No description available.'}
+                  </p>
+                </details>
+
+                {/* Book Details — collapsible */}
+                {(product.author || product.publisher || product.language) && (
+                  <details className="group">
+                    <summary className="flex items-center justify-between cursor-pointer py-2 text-sm font-semibold">
+                      Book Details
+                      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" />
+                    </summary>
+                    <div className="space-y-2 text-sm pb-2">
+                      {product.author && (
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Author</span>
+                          <span className="font-medium">{product.author}</span>
+                        </div>
+                      )}
+                      {product.publisher && (
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Publisher</span>
+                          <span className="font-medium">{product.publisher}</span>
+                        </div>
+                      )}
+                      {product.language && (
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Language</span>
+                          <span className="font-medium">{product.language}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Category</span>
+                        <Link to={`/shop?category=${product.category}`} className="font-medium capitalize text-primary">
+                          {product.category}
+                        </Link>
+                      </div>
+                    </div>
+                  </details>
+                )}
+
+                {/* Other Editions */}
+                {variantProducts.length > 0 && (
+                  <details className="group">
+                    <summary className="flex items-center justify-between cursor-pointer py-2 text-sm font-semibold">
+                      Other Editions ({variantProducts.length})
+                      <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180" />
+                    </summary>
+                    <div className="space-y-2 pb-2">
+                      {variantProducts.map(vp => {
+                        const vpPrice = formatPrice(vp.price, vp.price_inr, vp.sale_price, vp.sale_price_inr);
+                        return (
+                          <Link key={vp.id} to={`/product/${vp.id}`} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted transition-colors">
+                            <ProductImage
+                              src={vp.cover_image_url || vp.images?.[0] || '/placeholder.svg'}
+                              alt={vp.name}
+                              className="w-12 h-16 object-cover rounded flex-shrink-0"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium line-clamp-2">{vp.name}</p>
+                              {vp.author && <p className="text-xs text-muted-foreground">{vp.author}</p>}
+                            </div>
+                            <span className="text-sm font-medium text-primary flex-shrink-0">{vpPrice.displayPrice}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </details>
+                )}
+
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -777,17 +855,6 @@ const ProductDetail = () => {
                     Copy Link
                   </Button>
                 </div>
-
-                <Card>
-                  <CardContent className="p-4 space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Category:</span>
-                      <Link to={`/shop?category=${product.category}`} className="font-medium capitalize hover:text-primary transition-colors">
-                        {product.category}
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
 
