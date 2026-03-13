@@ -283,7 +283,7 @@ const Index = () => {
 
     // Desktop hero (existing)
     return (
-      <section key={s.id} className="py-12 md:py-20 lg:py-28 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
+      <section key={s.id} className="py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-br from-background via-background to-secondary/40 overflow-hidden">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left — Text */}
